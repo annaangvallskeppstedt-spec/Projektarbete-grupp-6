@@ -71,3 +71,24 @@ button:focus-visible {
   display: flex;
   justify-content: space-between;
 }
+
+.habitList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: solid 1px white;
+  background-color: #6843ee;
+  border-radius: 8px;
+  margin: 2rem;
+  padding: 2rem;
+}
+
+li {
+  list-style: none;
+}
+
+input {
+  padding: 0.5rem;
+  border-radius: 0.6rem;
+  margin-bottom: 1rem;
+}
