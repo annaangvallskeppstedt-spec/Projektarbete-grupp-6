@@ -36,7 +36,7 @@ const Habits = () => {
                     const addProgress =  habit.progress + 1
 
                     if (addProgress === habit.goal) {
-                        alert(`Congratualtions! You have reach your goal "${habit.title}"!`)
+                        alert(`Congratualtions! You have reached your goal "${habit.title}"!`)
                     }
 
                     return {...habit, progress: addProgress}
@@ -62,7 +62,7 @@ const Habits = () => {
     return(
     <div className="container">
         <Navbar/>
-        <div className="addNew">
+        <div className="addNewHabit">
         <h1>Habits</h1>
             <form onSubmit={handleSubmit}>
 
@@ -110,17 +110,20 @@ const Habits = () => {
         
         <div className="habitList">
             <h2>My Habits</h2>
-            <ul>
+            <div className="habit-card-container">
                 {habitList.map((habit, index) => (
-                    <li key={index}>
-                        <strong>{habit.title}</strong> <br />
-                        Goal: {habit.goal} times a day <br />
-                        Priority: <strong>{habit.priority}</strong><br />
-                        Progress: {habit.progress} / {habit.goal}  <br />
-                        <button className="incdecButton" onClick={() => decrement(index)}>-</button><button className="incdecButton" onClick={() => increment(index)}>+</button>
-                    </li>
+                    <div className="habit-card" key={index}>
+                        <h4>{habit.title}</h4>
+                        <p>Goal: {habit.goal} times a day </p>
+                        <p>Priority: {habit.priority} </p>
+                        <p>Progress: {habit.progress} / {habit.goal}</p>  
+                        <div className="didHabitButtons">
+                        <button onClick={() => decrement(index)}>-</button>
+                        <button onClick={() => increment(index)}>+</button>
+                        </div>
+                    </div>
                 ))}
-            </ul>
+                </div>
 
             </div>
         </div>
