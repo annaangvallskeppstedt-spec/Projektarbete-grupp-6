@@ -1,31 +1,38 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Navbar from "../components/navbar"
 
 
 const Habits = () => {
 
     const [habitInput, setHabitInput] = useState("")
-    const [habitList, setHabitList] = useState([])
+    const [habitList, setHabitList] = useState(JSON.parse(localStorage.getItem("habitList")) || [])
     const [goal, setGoal] = useState("")
     const [priority, setPriority] = useState("")
 
     //Add habit
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleNewHabit = () => {
+
 
     //habit objekt
-    const newHabit = {
+    let newHabit = {
         title: habitInput,
         goal: Number(goal),
         priority,
         progress: 0
     }
     
-    setHabitList([...habitList, newHabit])
+    const updatedHabitList = [...habitList, newHabit]
+    setHabitList(updatedHabitList)
+    localStorage.setItem("habitList", JSON.stringify(updatedHabitList))
 
     setHabitInput("")
     setGoal("")
     setPriority("")
+    }
+
+    let handleSubmit = (e) => {
+        e.preventDefault();
+        handleNewHabit();
     }
 
     //Funktioner för att öka-minska / progress
@@ -36,7 +43,7 @@ const Habits = () => {
                     const addProgress =  habit.progress + 1
 
                     if (addProgress === habit.goal) {
-                        alert(`Congratualtions! You have reached your goal "${habit.title}"!`)
+                        alert(`Congratulations! You have reached your goal "${habit.title}"!`)
                     }
 
                     return {...habit, progress: addProgress}
@@ -58,6 +65,9 @@ const Habits = () => {
         )
     }
 
+        useEffect(() =>  {
+        localStorage.setItem("habitList", JSON.stringify(habitList))
+    },[habitList])
 
     return(
     <div className="container">
@@ -71,7 +81,7 @@ const Habits = () => {
                 type="text" 
                 value={habitInput} 
                 id="title" 
-                placeholder="..."
+                placeholder="title"
                 onChange={(e) => setHabitInput(e.target.value)}/>
 
                 <br />
@@ -94,16 +104,14 @@ const Habits = () => {
                 </select>
 
                 <select 
-                value={priority}
-                id="priority"
-                onChange={(e) => setPriority(e.target.value)}>
-                    <option value="priority">Choose Priority</option>
-                    <option value="High">High</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Low">Low</option>
+                    value={priority}
+                    id="priority"
+                    onChange={(e) => setPriority(e.target.value)}>
+                        <option value="priority">Choose Priority</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
                 </select>
-                
-                <br /><br />
                 
                 <button type="submit">Add habit</button>
             </form>
@@ -117,10 +125,10 @@ const Habits = () => {
                         <p>Goal: {habit.goal} times a day </p>
                         <p>Priority: {habit.priority} </p>
                         <p>Progress: {habit.progress} / {habit.goal}</p>  
-                        <div className="didHabitButtons">
-                        <button onClick={() => decrement(index)}>-</button>
-                        <button onClick={() => increment(index)}>+</button>
-                        </div>
+                            <div className="didHabitButtons">
+                            <button onClick={() => decrement(index)}>-</button>
+                            <button onClick={() => increment(index)}>+</button>
+                            </div>
                     </div>
                 ))}
                 </div>
