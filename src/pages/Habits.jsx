@@ -9,11 +9,9 @@ const Habits = () => {
     const [goal, setGoal] = useState("")
     const [priority, setPriority] = useState("")
 
-    //Add habit
+
     const handleNewHabit = () => {
 
-
-    //habit objekt
     let newHabit = {
         title: habitInput,
         goal: Number(goal),
@@ -69,28 +67,37 @@ const Habits = () => {
         localStorage.setItem("habitList", JSON.stringify(habitList))
     },[habitList])
 
+    const removeHabit = (title) => {
+        setHabitList(habitList.filter((h) => h.title !== title))
+}
+
+    const resetProgress = (title) => {
+        set
+    }
+
     return(
     <div className="container">
         <Navbar/>
-        <div className="addNewHabit">
         <h1>Habits</h1>
+        <div className="addNewHabit">
             <form onSubmit={handleSubmit}>
 
-                <label>Describe habit: </label>
+                <label>Describe your habit: </label>
                 <input 
                 type="text" 
                 value={habitInput} 
                 id="title" 
-                placeholder="title"
+                placeholder="Title"
                 onChange={(e) => setHabitInput(e.target.value)}/>
 
                 <br />
 
+                <label htmlFor="goal">My daily goal:</label>
                 <select 
                 value={goal}
                 id="goal"
                 onChange={(e) => setGoal(e.target.value)}>
-                    <option value="">Goal per day:</option>
+                    <option value="">0</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -103,6 +110,7 @@ const Habits = () => {
                     <option value="10">10</option>
                 </select>
 
+                <label htmlFor="priority">Priority:</label>
                 <select 
                     value={priority}
                     id="priority"
@@ -121,14 +129,15 @@ const Habits = () => {
             <div className="habit-card-container">
                 {habitList.map((habit, index) => (
                     <div className="habit-card" key={index}>
-                        <h4>{habit.title}</h4>
+                        <h4>{habit.title}</h4> 
                         <p>Goal: {habit.goal} times a day </p>
                         <p>Priority: {habit.priority} </p>
                         <p>Progress: {habit.progress} / {habit.goal}</p>  
-                            <div className="didHabitButtons">
+                            <div className="inc-dec-btn">
                             <button onClick={() => decrement(index)}>-</button>
                             <button onClick={() => increment(index)}>+</button>
-                            </div>
+                            </div><br />
+                            <button className="delete-btn" onClick={() => removeHabit(habit.title)}>remove</button>
                     </div>
                 ))}
                 </div>
