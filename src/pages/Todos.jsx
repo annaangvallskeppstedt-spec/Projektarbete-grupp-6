@@ -1,12 +1,19 @@
+import React from 'react';
+import Navbar from "../components/navbar";
+import TodoList from "../components/TodoList";
+import "./Todos.css";
 
+function Todos() {
+  return (
+    <div className="todoapp">
+      <Navbar />
 
-const Todos = () => {
+      <h1>To Do List</h1>
 
-    return(
-        <>
-        
-        </>
-    )
+      {/* TodoList handles all logic, tasks, add/delete/toggle */}
+      <TodoList />
+    </div>
+  );
 }
 
-export default Todos
+export default Todos;
