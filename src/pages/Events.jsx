@@ -153,3 +153,15 @@ const Events = () => {
 };
 
 export default Events;
+
+
+const Events = () => {
+
+    return(
+        <>
+        
+        </>
+    )
+}
+
+export default Events
