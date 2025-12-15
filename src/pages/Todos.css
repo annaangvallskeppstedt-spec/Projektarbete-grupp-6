@@ -42,6 +42,10 @@ h1 {
   color: #4a4a4a;
 }
 
+.todo-label.overdue {
+  color: red;
+  font-weight: bold;
+}
 /* Form and Input */
 form {
   display: flex;
