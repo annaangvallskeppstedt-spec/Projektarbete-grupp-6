@@ -18,6 +18,13 @@ function App() {
       </Routes>
 
     </div>
+    )
+  
+}
+
+export default App
+
+
   )
 }
 
