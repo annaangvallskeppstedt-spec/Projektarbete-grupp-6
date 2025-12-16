@@ -1,67 +1,103 @@
 import React, { useState } from 'react';
 import TodoItem from './TodoItem';
 
-
 function TodoList() {
- const [tasks, setTasks] = useState([
- {
- id: 1,
- text: 'Dentist appointment',
- completed: true
- },
- {
- id: 2,
- text: 'Meeting at school',
- completed: false
- },
-  {
- id: 3,
- text: 'Return library book',
- completed: false
- }
- ]);
- 
- const [text, setText] = useState('');
-function addTask(text) {
- const newTask = {
- id: Date.now(),
- text,
- completed: false
- };
- setTasks([...tasks, newTask]);
- setText('');
- }
-function deleteTask(id) {
- setTasks(tasks.filter(task => task.id !== id));
- }
-function toggleCompleted(id) {
- setTasks(tasks.map(task => {
- if (task.id === id) {
- return {...tasks, completed: !task.completed};
- } else {
- return task;
- } 
- }));
- }
+  const [text, setText] = useState('');
+  const [deadline, setDeadline] = useState('');
 
-return (
- <div className="todo-list">
- {tasks.map(task => (
- <TodoItem
- key={task.id} 
- task={task}
- deleteTask={deleteTask}
- toggleCompleted={toggleCompleted} 
- />
- ))}
+  const [tasks, setTasks] = useState([
+    {
+      id: 1,
+      text: 'Dentist appointment',
+      deadline: '2025-12-20',
+      completed: true
+    },
+    {
+      id: 2,
+      text: 'Meeting at school',
+      deadline: '2025-12-18',
+      completed: false
+    },
+    {
+      id: 3,
+      text: 'Return library book',
+      deadline: '2025-12-22',
+      completed: false
+    }
+  ]);
 
-<input
- value={text}
- onChange={e => setText(e.target.value)} 
- />
-<button onClick={() => addTask(text)}>Add</button>
- </div>
- );
+  const handleTaskChange = (e) => {
+    setText(e.target.value);
+  };
+
+  const handleDeadlineChange = (e) => {
+    setDeadline(e.target.value);
+  };
+
+  function addTask(text) {
+    const selectedDate = new Date(deadline);
+    const currentDate = new Date();
+
+    if (!text || !deadline || selectedDate <= currentDate) {
+      alert("Please enter a task and select a future deadline.");
+      return;
+    }
+
+    const newTask = {
+      id: tasks.length + 1,
+      text,
+      deadline,
+      completed: false
+    };
+
+    setTasks([...tasks, newTask]);
+    setText('');
+    setDeadline('');
+  }
+
+  function deleteTask(id) {
+    setTasks(tasks.filter(task => task.id !== id));
+  }
+
+  function toggleCompleted(id) {
+    setTasks(
+      tasks.map(task =>
+        task.id === id
+          ? { ...task, completed: !task.completed }
+          : task
+      )
+    );
+  }
+
+  return (
+    <div className="todo-list">
+      <ul>
+        {tasks.map(task => (
+          <TodoItem
+            key={task.id}
+            task={task}
+            deleteTask={deleteTask}
+            toggleCompleted={toggleCompleted}
+          />
+        ))}
+      </ul>
+
+      <input
+        type="text"
+        placeholder="Enter task..."
+        value={text}
+        onChange={handleTaskChange}
+      />
+
+      <input
+        type="date"
+        value={deadline}
+        onChange={handleDeadlineChange}
+      />
+
+      <button onClick={() => addTask(text)}>Add</button>
+    </div>
+  );
 }
 
 export default TodoList;
