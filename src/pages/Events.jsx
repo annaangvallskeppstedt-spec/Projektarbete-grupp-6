@@ -25,40 +25,6 @@ const Events = () => {
     setEditingId(null);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!form.name || !form.start || !form.end) return;
-
-    const startDate = new Date(form.start);
-    const endDate = new Date(form.end);
-
-    if (editingId) {
-      setEvents((prev) =>
-        prev
-          .map((ev) =>
-            ev.id === editingId
-              ? { ...ev, name: form.name, start: startDate, end: endDate }
-              : ev
-          )
-          .sort((a, b) => a.start - b.start)
-      );
-    } else {
-      const newEvent = {
-        id: Date.now(),
-        name: form.name,
-        start: startDate,
-        end: endDate,
-      };
-
-      setEvents((prev) =>
-        [...prev, newEvent].sort((a, b) => a.start - b.start)
-      );
-    }
-
-    resetForm();
-  };
-
   const editEvent = (event) => {
     setEditingId(event.id);
     setForm({
@@ -67,6 +33,45 @@ const Events = () => {
       end: event.end.toISOString().slice(0, 16),
     });
   };
+
+  const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (!form.name || !form.start || !form.end) return;
+
+  const startDate = new Date(form.start);
+  const endDate = new Date(form.end);
+
+  if (editingId) {
+    setEvents((prev) =>
+      prev
+        .map((ev) =>
+          ev.id === editingId
+            ? {
+                ...ev,
+                name: form.name,
+                start: startDate,
+                end: endDate,
+              }
+            : ev
+        )
+        .sort((a, b) => a.start - b.start)
+    );
+  } else {
+    const newEvent = {
+      id: Date.now(),
+      name: form.name,
+      start: startDate,
+      end: endDate,
+    };
+
+    setEvents((prev) =>
+      [...prev, newEvent].sort((a, b) => a.start - b.start)
+    );
+  }
+
+  resetForm();
+};
 
   const deleteEvent = (id) => {
     setEvents(events.filter((e) => e.id !== id));
