@@ -2,28 +2,25 @@
   font-family: system-ui, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background: #fff;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+body {
+  margin: 2rem;
 }
+
 
 button {
   border: none;
   border-radius: 50px;
   color: #3b3c3a;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(229, 227, 227);
   cursor: pointer;
   height: 38px;
   font-size: 14px;
   font-weight: bold;
   padding: 8px 20px;
-  transition: 0.3s;
+  transition: background-color 0.3s, color 0.3s;
   
 }
 button:hover {
@@ -187,11 +184,16 @@ form {
   margin-top: 8px;
 }
 
+.reset-btn {
+  margin: auto;
+  margin-top: 8px;
+  width: 5rem;
+}
+
 .delete-btn {
   background-color: rgb(251, 19, 19);
   color: white;
   margin: auto;
-  width: fit-content;
 }
 
 .delete-btn:hover {
@@ -271,12 +273,15 @@ form {
 
 .addNewHabit form {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
   border: 1px solid white;
-  border-radius: 8px;
-  padding: 0.5rem;
-  background-color: #535554;
+  border-radius: 12px;
+  padding: 2rem;
+  background-color: #ffffff;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
 .habit-card-container {
@@ -290,10 +295,11 @@ form {
   flex-direction: column;
   width: 180px;
   border: solid 1px white;
-  background-color: #535554;
+  background-color: #ffffff;
   border-radius: 8px;
   padding: 0.5rem;
   list-style: none;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
 .habitList {
@@ -307,26 +313,4 @@ input, select {
   margin-bottom: 1rem;
 }
 
-/* Responsive adjustments */
-@media screen and (max-width: 500px) {
-  .todoapp {
-    padding: 1rem;
-    gap: 1.5rem;
-  }
-  .input__lg, .btn {
-    font-size: 1.4rem;
-  }
-  .todo-label {
-    font-size: 1.4rem;
-  }
-}
-
-/* .delete-btn:hover {
-  background-color: rgb(199, 7, 7);
-}
-
-.delete-btn:active {
-  background-color: rgb(163, 4, 4);
-  transform: translateY(2px)
-} */
 
