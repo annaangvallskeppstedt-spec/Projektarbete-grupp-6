@@ -63,7 +63,7 @@ body {
 
 h1 {
   text-align: center;
-  font-size: 2.4rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #4a4a4a;
 }
@@ -94,7 +94,7 @@ form {
 .btn {
   padding: 0.8rem 1.2rem;
   border-radius: 0.6rem;
-  font-size: 1.6rem;
+   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
@@ -174,7 +174,7 @@ form {
   cursor: pointer;
 }
 .todo-label {
-  font-size: 1.6rem;
+  font-size: 1.1rem;
   color: #333;
 }
 
@@ -223,7 +223,6 @@ form {
   overflow: hidden;
 }
 
-
 .completed-task-list thead {
   background-color: #e9ecef;
 }
@@ -237,13 +236,12 @@ form {
   color: #666;
 }
 
-
 .completed-task-list td {
   padding: 10px;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   color: #555;
+  text-align: left;
 }
-
 
 .completed-task-list tbody tr {
   border-bottom: 1px solid #eee;
