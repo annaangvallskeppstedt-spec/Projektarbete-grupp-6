@@ -11,6 +11,7 @@ export const HabitProvider = ({ children }) => {
     const [habitList, setHabitList] = useState(JSON.parse(localStorage.getItem("habitList")) || [])
     const [goal, setGoal] = useState("")
     const [priority, setPriority] = useState("")
+    const [filter, setFilter] = useState("all")
 
     
     //Flyttar in funktioner och useEffect från habits.jsx
@@ -18,6 +19,7 @@ export const HabitProvider = ({ children }) => {
     const handleNewHabit = () => {
 
     let newHabit = {
+        id: Date.now(),
         title: habitInput,
         goal: Number(goal),
         priority,
@@ -38,44 +40,31 @@ export const HabitProvider = ({ children }) => {
         handleNewHabit();
     }
 
-    const increment = (index) => {
+    const increment = (id) => {
         setHabitList(list => 
-            list.map((habit, i) => {
-                if (i === index) {
-                    const addProgress =  habit.progress + 1
-
-                    if (addProgress === habit.goal) {
-                        alert(`Congratulations! You have reached your goal "${habit.title}"!`)
-                    }
-
-                    return {...habit, progress: addProgress}
-                }
-                return habit 
-            })
-        )
-    }
-
-    const decrement = (index) => {
-        setHabitList(list => 
-            list.map((habit, i) => {
-                if (i === index) {
-                    const undoProgress = habit.progress - 1;
-                    return {...habit, progress: undoProgress}
-                }
-                 return habit
-            })
-        )
-    }
-    
-    const resetHabit = (index) => {
-        setHabitList(list => 
-            list.map((habit, i) => 
-                i === index
-                ? {...habit, progress: 0}
-                : habit
+            list.map(habit =>
+                habit.id === id ? {...habit, progress: habit.progress + 1} : habit
             )
         )
     }
+
+    const decrement = (id) => {
+        setHabitList(list => 
+            list.map(habit => 
+                habit.id === id ? {...habit, progress: habit.progress - 1} : habit
+            )
+        );
+    }
+    
+    const resetHabit = (id) => {
+        setHabitList(list => 
+            list.map(habit => 
+                habit.id === id ? {...habit, progress: 0} : habit
+            )
+        )
+    }
+
+    const filteredHabits = filter === "all" ? habitList : habitList.filter(habit => habit.priority.toLowerCase() === filter);
 
         useEffect(() =>  {
         localStorage.setItem("habitList", JSON.stringify(habitList))
@@ -86,7 +75,7 @@ export const HabitProvider = ({ children }) => {
 }
 
     return(
-        <HabitContext.Provider value={{ habitInput, setHabitInput, habitList, setHabitList, goal, setGoal, priority, setPriority, handleSubmit, increment, decrement, removeHabit, resetHabit }}>
+        <HabitContext.Provider value={{ habitInput, setHabitInput, habitList, setHabitList, goal, setGoal, priority, setPriority, handleSubmit, increment, decrement, removeHabit, resetHabit, filter, setFilter, filteredHabits }}>
             {children}
         </HabitContext.Provider>
     )

@@ -46,15 +46,15 @@ const Habitform = () => {
                     <option value="10">10</option>
                 </select>
 
-                <label htmlFor="priority">Priority:</label>
+                <label>Priority:</label>
                 <select 
                     value={priority}
                     id="priority"
                     onChange={(e) => setPriority(e.target.value)}>
-                        <option value="priority">Choose Priority</option>
-                        <option value="High">High</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Low">Low</option>
+                        <option value="">Choose Priority</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
                 </select>
                 
                 <button type="submit">Add habit</button>
