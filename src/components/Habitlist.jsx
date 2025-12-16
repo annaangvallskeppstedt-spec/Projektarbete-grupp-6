@@ -11,7 +11,9 @@ const Habitlist = () => {
         resetHabit,
         filter, 
         setFilter,
-        filteredHabits
+        sortedHabits,
+        sortBy,
+        setSortBy
     } = useContext(HabitContext)
 
     return(
@@ -26,11 +28,17 @@ const Habitlist = () => {
                 <option value="low">Low priority</option>
             </select>
 
+            <label>Sort by:</label>
+            <select name="sortBy" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                <option value="priority">Priority</option>
+                <option value="repetitions">Repetitions</option>
+            </select>
+
             
             <div className="habit-card-container">
-                {filteredHabits.map((habit) => (
-                    <div className="habit-card" key={habit.title}>
-                        <h4>{habit.title}</h4> 
+                {sortedHabits.map(habit => (
+                    <div className="habit-card" key={habit.id}>
+                        <h3>{habit.title}</h3> 
                         <p>Goal: {habit.goal} times a day </p>
                         <p>Priority: {habit.priority} </p>
                         <p>Progress: {habit.progress} / {habit.goal}</p>  
@@ -39,7 +47,7 @@ const Habitlist = () => {
                             <button className="inc-dec-btn" onClick={() => decrement(habit.id)}>↩️ Undo</button>
                             <button className="reset-btn" onClick={() => resetHabit(habit.id)}>Reset</button>
                             <br />
-                            <button className="delete-btn" onClick={() => removeHabit(habit.title)}>🗑️ Delete</button>
+                            <button className="delete-btn" onClick={() => removeHabit(habit.id)}>🗑️ Delete</button>
                             
                     </div>
                 ))}

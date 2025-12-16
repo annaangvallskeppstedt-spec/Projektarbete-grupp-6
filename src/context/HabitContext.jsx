@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { useMemo } from "react";
 
 //skapar och exporterar context för habits
 export const HabitContext = createContext()
@@ -12,6 +13,7 @@ export const HabitProvider = ({ children }) => {
     const [goal, setGoal] = useState("")
     const [priority, setPriority] = useState("")
     const [filter, setFilter] = useState("all")
+    const [sortBy, setSortBy] = useState("priority")
 
     
     //Flyttar in funktioner och useEffect från habits.jsx
@@ -64,18 +66,41 @@ export const HabitProvider = ({ children }) => {
         )
     }
 
-    const filteredHabits = filter === "all" ? habitList : habitList.filter(habit => habit.priority.toLowerCase() === filter);
+    //Funktion för sortering och filtrering
 
-        useEffect(() =>  {
+    const sortHabits = (habits, sortBy) => {
+        const priorityOrder = { high: 1, medium: 2, low: 3 }
+
+        return [...habits].sort((habit1, habit2) => {
+            if (sortBy === "priority") {
+                return priorityOrder[habit1.priority.toLowerCase()] - priorityOrder[habit2.priority.toLowerCase()]
+            } else if (sortBy === "repetitions") {
+                return habit2.progress - habit1.progress
+            } else {
+                return 0;
+            }
+        })
+    }
+
+    const filteredHabits = useMemo(() => {
+        return filter === "all" 
+        ? habitList : habitList.filter(habit => habit.priority.toLowerCase() === filter);
+    }, [habitList, filter])
+
+    const sortedHabits = useMemo(() => {
+    return sortHabits(filteredHabits, sortBy)
+    }, [filteredHabits, sortBy])
+
+    useEffect(() =>  {
         localStorage.setItem("habitList", JSON.stringify(habitList))
     },[habitList])
 
-    const removeHabit = (title) => {
-        setHabitList(habitList.filter((h) => h.title !== title))
+    const removeHabit = (id) => {
+        setHabitList(habitList.filter(h => h.id !== id))
 }
 
     return(
-        <HabitContext.Provider value={{ habitInput, setHabitInput, habitList, setHabitList, goal, setGoal, priority, setPriority, handleSubmit, increment, decrement, removeHabit, resetHabit, filter, setFilter, filteredHabits }}>
+        <HabitContext.Provider value={{ habitInput, setHabitInput, habitList, setHabitList, goal, setGoal, priority, setPriority, handleSubmit, increment, decrement, removeHabit, resetHabit, filter, setFilter, sortedHabits, sortBy, setSortBy }}>
             {children}
         </HabitContext.Provider>
     )
