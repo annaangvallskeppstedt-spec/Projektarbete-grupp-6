@@ -3,20 +3,12 @@
   line-height: 1.5;
   font-weight: 400;
   background: #fff;
-
-  margin: 3rem auto;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
-
-h1 {
-  text-align: center;
-  font-size: 3.2em;
-  line-height: 1.1;
-  color: #4a4a4a;
+body {
+  margin: 2rem;
 }
+
 
 button {
   border: none;
@@ -28,7 +20,7 @@ button {
   font-size: 14px;
   font-weight: bold;
   padding: 8px 20px;
-  transition: 0.3s;
+  transition: background-color 0.3s, color 0.3s;
   
 }
 button:hover {
@@ -46,14 +38,12 @@ button:hover {
   margin: auto;
   margin-top: 8px;
   width: 5rem;
-  border: 1px;
 }
 
 .delete-btn {
   background-color: rgb(251, 19, 19);
   color: white;
   margin: auto;
-  width: fit-content;
 }
 
 .delete-btn:hover {
@@ -76,8 +66,8 @@ button:hover {
   align-items: center;
   flex-direction: column;
   border: 1px solid white;
-  border-radius: 8px;
-  padding: 0.5rem;
+  border-radius: 12px;
+  padding: 2rem;
   background-color: #ffffff;
   margin-top: 2rem;
   margin-bottom: 1rem;
@@ -99,6 +89,7 @@ button:hover {
   border-radius: 8px;
   padding: 0.5rem;
   list-style: none;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
 .habitList {
@@ -112,14 +103,4 @@ input, select {
   margin-bottom: 1rem;
 }
 
-
-
-/* .delete-btn:hover {
-  background-color: rgb(199, 7, 7);
-}
-
-.delete-btn:active {
-  background-color: rgb(163, 4, 4);
-  transform: translateY(2px)
-} */
 

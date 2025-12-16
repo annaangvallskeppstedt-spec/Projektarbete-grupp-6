@@ -27,7 +27,6 @@ const Habitform = () => {
                 placeholder="Title"
                 onChange={(e) => setHabitInput(e.target.value)}/>
 
-                <br />
 
                 <label htmlFor="goal">My daily goal:</label>
                 <select 
