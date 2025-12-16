@@ -66,6 +66,16 @@ export const HabitProvider = ({ children }) => {
             })
         )
     }
+    
+    const resetHabit = (index) => {
+        setHabitList(list => 
+            list.map((habit, i) => 
+                i === index
+                ? {...habit, progress: 0}
+                : habit
+            )
+        )
+    }
 
         useEffect(() =>  {
         localStorage.setItem("habitList", JSON.stringify(habitList))
@@ -76,7 +86,7 @@ export const HabitProvider = ({ children }) => {
 }
 
     return(
-        <HabitContext.Provider value={{ habitInput, setHabitInput, habitList, setHabitList, goal, setGoal, priority, setPriority, handleSubmit, increment, decrement, removeHabit }}>
+        <HabitContext.Provider value={{ habitInput, setHabitInput, habitList, setHabitList, goal, setGoal, priority, setPriority, handleSubmit, increment, decrement, removeHabit, resetHabit }}>
             {children}
         </HabitContext.Provider>
     )

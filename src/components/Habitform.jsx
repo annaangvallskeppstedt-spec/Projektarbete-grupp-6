@@ -16,8 +16,9 @@ const Habitform = () => {
     return(
 
         <div className="addNewHabit">
+            
             <form onSubmit={handleSubmit}>
-
+                    <h1>Habits</h1>
                 <label>Describe your habit: </label>
                 <input 
                 type="text" 

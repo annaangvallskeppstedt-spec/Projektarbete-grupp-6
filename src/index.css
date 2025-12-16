@@ -2,22 +2,27 @@
   font-family: system-ui, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  background: #fff;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
+
 h1 {
+  text-align: center;
   font-size: 3.2em;
   line-height: 1.1;
+  color: #4a4a4a;
 }
 
 button {
   border: none;
   border-radius: 50px;
   color: #3b3c3a;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(229, 227, 227);
   cursor: pointer;
   height: 38px;
   font-size: 14px;
@@ -35,6 +40,13 @@ button:hover {
   width: 100px;
   margin: auto;
   margin-top: 8px;
+}
+
+.reset-btn {
+  margin: auto;
+  margin-top: 8px;
+  width: 5rem;
+  border: 1px;
 }
 
 .delete-btn {
@@ -61,12 +73,15 @@ button:hover {
 
 .addNewHabit form {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
   border: 1px solid white;
   border-radius: 8px;
   padding: 0.5rem;
-  background-color: #535554;
+  background-color: #ffffff;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
 .habit-card-container {
@@ -80,7 +95,7 @@ button:hover {
   flex-direction: column;
   width: 180px;
   border: solid 1px white;
-  background-color: #535554;
+  background-color: #ffffff;
   border-radius: 8px;
   padding: 0.5rem;
   list-style: none;

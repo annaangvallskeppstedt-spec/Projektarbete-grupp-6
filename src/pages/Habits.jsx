@@ -9,8 +9,6 @@ const Habits = () => {
     <div className="container">
 
         <Navbar/>
-
-            <h1>Habits</h1>
         
         <Habitform/>
         <Habitlist/>
