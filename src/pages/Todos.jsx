@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from "../components/navbar";
 import TodoList from "../components/TodoList";
-import "./Todos.css";
+import "../index.css";
 
 function Todos() {
   return (
