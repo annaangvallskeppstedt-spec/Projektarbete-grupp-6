@@ -127,6 +127,11 @@ function TodoList() {
       ))}
     </ul>
  
+<label>Filter by category</label>
+            <select name="category" value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
+             {categories}
+            </select>
+
     <div className="todo-form">
       <input
         type="text"
