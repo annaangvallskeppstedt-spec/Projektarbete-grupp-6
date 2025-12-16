@@ -1,51 +1,63 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import TodoItem from './TodoItem';
 
 function TodoList() {
   const [text, setText] = useState('');
   const [deadline, setDeadline] = useState('');
+  const [category, setCategory] = useState('work');
+
+  const categories = [
+    'work',
+    'home',
+    'parenting',
+    'errands',
+    'self-care',
+    'finance',
+    'relationships'
+  ];
 
   const [tasks, setTasks] = useState([
     {
       id: 1,
       text: 'Dentist appointment',
+      category: 'self-care',
       deadline: '2025-12-20',
       completed: true
     },
     {
       id: 2,
       text: 'Meeting at school',
+      category: 'parenting',
       deadline: '2025-12-18',
       completed: false
     },
     {
       id: 3,
       text: 'Return library book',
+      category: 'errands',
       deadline: '2025-12-22',
       completed: false
     }
   ]);
 
-  const handleTaskChange = (e) => {
-    setText(e.target.value);
-  };
+  const completedTasks = useMemo(
+    () => tasks.filter(task => task.completed),
+    [tasks]
+  );
 
-  const handleDeadlineChange = (e) => {
-    setDeadline(e.target.value);
-  };
-
-  function addTask(text) {
+  function addTask() {
     const selectedDate = new Date(deadline);
     const currentDate = new Date();
 
     if (!text || !deadline || selectedDate <= currentDate) {
-      alert("Please enter a task and select a future deadline.");
+      alert('Please enter a task and select a future deadline.');
       return;
     }
 
     const newTask = {
-      id: tasks.length + 1,
+      id: Date.now(),
       text,
+      category,
       deadline,
       completed: false
     };
@@ -53,6 +65,7 @@ function TodoList() {
     setTasks([...tasks, newTask]);
     setText('');
     setDeadline('');
+    setCategory('work');
   }
 
   function deleteTask(id) {
@@ -70,9 +83,12 @@ function TodoList() {
   }
 
   return (
-    <div className="todo-list">
-      <ul>
-        {tasks.map(task => (
+  <div className="todo-list">
+
+    <ul className="todo-items">
+      {tasks
+        .filter(task => !task.completed)
+        .map(task => (
           <TodoItem
             key={task.id}
             task={task}
@@ -80,24 +96,60 @@ function TodoList() {
             toggleCompleted={toggleCompleted}
           />
         ))}
-      </ul>
+    </ul>
 
+ 
+    <div className="todo-form">
       <input
         type="text"
         placeholder="Enter task..."
         value={text}
-        onChange={handleTaskChange}
+        onChange={(e) => setText(e.target.value)}
       />
+
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+      >
+        {categories.map(cat => (
+          <option key={cat} value={cat}>
+            {cat}
+          </option>
+        ))}
+      </select>
 
       <input
         type="date"
         value={deadline}
-        onChange={handleDeadlineChange}
+        onChange={(e) => setDeadline(e.target.value)}
       />
 
-      <button onClick={() => addTask(text)}>Add</button>
+      <button onClick={addTask}>Add</button>
     </div>
-  );
+
+    <div className="completed-task-list">
+      <h2 className="cheading">Completed Tasks</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Category</th>
+            <th>Deadline</th>
+          </tr>
+        </thead>
+        <tbody>
+          {completedTasks.map(ct => (
+            <tr key={ct.id}>
+              <td>{ct.text}</td>
+              <td>{ct.category}</td>
+              <td>{ct.deadline}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
 }
 
 export default TodoList;
