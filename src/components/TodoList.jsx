@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState,useEffect } from 'react';
 import TodoItem from './TodoItem';
 
 function TodoList() {
   const [text, setText] = useState('');
   const [deadline, setDeadline] = useState('');
   const [category, setCategory] = useState('work');
+  const [filterCategory, setFilterCategory] = useState("all")
 
   const categories = [
     'work',
@@ -15,6 +16,19 @@ function TodoList() {
     'finance',
     'relationships'
   ];
+
+    <select
+      className="category-filter"
+      value={filterCategory}
+      onChange={(e) => setFilterCategory(e.target.value)}
+    >
+      <option value="all">All Categories</option>
+      {categories.map(cat => (
+        <option key={cat} value={cat}>
+          {cat}
+        </option>
+      ))}
+    </select>
 
   const [tasks, setTasks] = useState([
     {
@@ -44,6 +58,16 @@ function TodoList() {
     () => tasks.filter(task => task.completed),
     [tasks]
   );
+
+     const filteredTodos = filterCategory === "all" ? TodoList : TodoList.filter(todo => todo.category.toLowerCase() === filter);
+
+        useEffect(() =>  {
+        localStorage.setItem("TodoList", JSON.stringify(TodoList))
+    },[TodoList])
+
+    const removeTodo = (title) => {
+        setTodoList(TodoList.filter((h) => h.title !== title))
+}
 
   function addTask() {
     const selectedDate = new Date(deadline);
@@ -87,17 +111,21 @@ function TodoList() {
 
     <ul className="todo-items">
       {tasks
-        .filter(task => !task.completed)
+      .filter(task => !task.completed)
+      .filter(task =>
+    filterCategory === 'all'
+      ? true
+      : task.category === filterCategory)
         .map(task => (
-          <TodoItem
-            key={task.id}
-            task={task}
-            deleteTask={deleteTask}
-            toggleCompleted={toggleCompleted}
-          />
-        ))}
-    </ul>
 
+    <TodoItem
+      key={task.id}
+      task={task}
+      deleteTask={deleteTask}
+      toggleCompleted={toggleCompleted}
+      />
+      ))}
+    </ul>
  
     <div className="todo-form">
       <input
