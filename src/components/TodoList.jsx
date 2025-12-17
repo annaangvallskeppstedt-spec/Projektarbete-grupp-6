@@ -2,7 +2,6 @@ import React, { useMemo, useState,useEffect } from 'react';
 import TodoItem from './TodoItem';
 
 
-
 function TodoList() {
   const [text, setText] = useState('');
   const [description, setDescription] = useState('');
@@ -53,182 +52,168 @@ function TodoList() {
     }
   ]);
 
-useEffect(() => {
-const saved = JSON.parse(localStorage.getItem('todoFilters'));
-if (saved) {
-setStatusFilter(saved.statusFilter);
-setSelectedCategories(saved.selectedCategories);
-}
-}, []);
+  useEffect(() => {
+  const saved = JSON.parse(localStorage.getItem('todoFilters'));
+  if (saved) {
+  setStatusFilter(saved.statusFilter);
+  setSelectedCategories(saved.selectedCategories);
+  }
+  }, []);
 
-useEffect(() => {
-localStorage.setItem(
-'todoFilters',
-JSON.stringify({ statusFilter, selectedCategories })
-);
-}, [statusFilter, selectedCategories]);
+  useEffect(() => {
+  localStorage.setItem(
+  'todoFilters',
+  JSON.stringify({ statusFilter, selectedCategories })
+  );
+  }, [statusFilter, selectedCategories]);
 
-const filteredTasks = useMemo(() => {
-return tasks.filter(task => {
-if (statusFilter === 'completed' && !task.completed) return false;
-if (statusFilter === 'active' && task.completed) return false;
+  const filteredTasks = useMemo(() => {
+  return tasks.filter(task => {
+  if (statusFilter === 'completed' && !task.completed) return false;
+  if (statusFilter === 'active' && task.completed) return false;
 
-if (
-selectedCategories.length > 0 &&
-!selectedCategories.includes(task.category)
-) {
-return false;
-}
+  if (
+  selectedCategories.length > 0 &&
+  !selectedCategories.includes(task.category)
+  ) {
+  return false;
+  }
 
-return true;
-});
-}, [tasks, statusFilter, selectedCategories]);
+  return true;
+  });
+  }, [tasks, statusFilter, selectedCategories]);
 
-const totalCount = tasks.length;
-const visibleCount = filteredTasks.length;
+  const totalCount = tasks.length;
+  const visibleCount = filteredTasks.length;
 
+  const categoryCounts = useMemo(() => {
+  return tasks.reduce((acc, task) => {
+  acc[task.category] = (acc[task.category] || 0) + 1;
+  return acc;
+  }, {});
+  }, [tasks]);
 
-const categoryCounts = useMemo(() => {
-return tasks.reduce((acc, task) => {
-acc[task.category] = (acc[task.category] || 0) + 1;
-return acc;
-}, {});
-}, [tasks]);
+  const totalTime = useMemo(() => {
+  return filteredTasks
+  .filter(task => !task.completed)
+  .reduce((sum, task) => sum + (task.timeEstimate || 0), 0);
+  }, [filteredTasks]);
 
+  function formatTime(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
 
-const totalTime = useMemo(() => {
-return filteredTasks
-.filter(task => !task.completed)
-.reduce((sum, task) => sum + (task.timeEstimate || 0), 0);
-}, [filteredTasks]);
+    if (hours && mins) return `${hours}h ${mins}m`;
+    if (hours) return `${hours}h`;
+    return `${mins}m`;
+  }
 
-function formatTime(minutes) {
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
+  function addTask() {
+  const selectedDate = new Date(deadline);
+  const today = new Date();
 
-  if (hours && mins) return `${hours}h ${mins}m`;
-  if (hours) return `${hours}h`;
-  return `${mins}m`;
-}
+  if (!text || !deadline || !timeEstimate || selectedDate <= today) {
+  alert('Fill in all fields and choose a future date');
+  return;
+  }
 
-function addTask() {
-const selectedDate = new Date(deadline);
-const today = new Date();
+  const newTask = {
+  id: Date.now(),
+  text,
+  description,
+  category,
+  deadline,
+  timeEstimate: Number(timeEstimate),
+  completed: false
+  };
 
+  setTasks([...tasks, newTask]);
+  setText('');
+  setDescription('');
+  setDeadline('');
+  setCategory('work');
+  setTimeEstimate('');
+  }
 
-if (!text || !deadline || !timeEstimate || selectedDate <= today) {
-alert('Fill in all fields and choose a future date');
-return;
-}
+  function deleteTask(id) {
+  setTasks(tasks.filter(task => task.id !== id));
+  }
 
+  function toggleCompleted(id) {
+  setTasks(
+  tasks.map(task =>
+  task.id === id ? { ...task, completed: !task.completed } : task
+  )
+  );
+  }
 
-const newTask = {
-id: Date.now(),
-text,
-description,
-category,
-deadline,
-timeEstimate: Number(timeEstimate),
-completed: false
-};
+  function resetFilters() {
+  setStatusFilter('all');
+  setSelectedCategories([]);
+  }
 
-setTasks([...tasks, newTask]);
-setText('');
-setDescription('');
-setDeadline('');
-setCategory('work');
-setTimeEstimate('');
-}
+  return (
+  <div className="todo-list">
+  <h2>Filters</h2>
 
+  <label>Status</label>
+  <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+  <option value="all">Alla</option>
+  <option value="active">Ej utförda</option>
+  <option value="completed">Slutförda</option>
+  </select>
 
-function deleteTask(id) {
-setTasks(tasks.filter(task => task.id !== id));
-}
+  <fieldset>
+  <legend>Kategorier</legend>
+  {categories.map(cat => (
+  <label key={cat} style={{ display: 'block' }}>
+  <input
+  type="checkbox"
+  checked={selectedCategories.includes(cat)}
+  onChange={e => {
+  if (e.target.checked) {
+  setSelectedCategories([...selectedCategories, cat]);
+  } else {
+  setSelectedCategories(selectedCategories.filter(c => c !== cat));
+  }
+  }}
+  />
+  {cat} ({categoryCounts[cat] || 0})
+  </label>
+  ))}
+  </fieldset>
 
+  <button onClick={resetFilters}>Reset filters</button>
 
-function toggleCompleted(id) {
-setTasks(
-tasks.map(task =>
-task.id === id ? { ...task, completed: !task.completed } : task
-)
-);
-}
+  <p>Visar {visibleCount} av {totalCount} ärenden</p>
+  <p>Total remaining time: {formatTime(totalTime)}</p>
 
-function resetFilters() {
-setStatusFilter('all');
-setSelectedCategories([]);
-}
-
-return (
-<div className="todo-list">
-<h2>Filters</h2>
-
-
-<label>Status</label>
-<select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
-<option value="all">Alla</option>
-<option value="active">Ej utförda</option>
-<option value="completed">Slutförda</option>
-</select>
-
-
-<fieldset>
-<legend>Kategorier</legend>
-{categories.map(cat => (
-<label key={cat} style={{ display: 'block' }}>
-<input
-type="checkbox"
-checked={selectedCategories.includes(cat)}
-onChange={e => {
-if (e.target.checked) {
-setSelectedCategories([...selectedCategories, cat]);
-} else {
-setSelectedCategories(selectedCategories.filter(c => c !== cat));
-}
-}}
-/>
-{cat} ({categoryCounts[cat] || 0})
-</label>
-))}
-</fieldset>
-
-
-<button onClick={resetFilters}>Reset filters</button>
-
-
-<p>Visar {visibleCount} av {totalCount} ärenden</p>
-<p>Total remaining time: {formatTime(totalTime)}</p>
-
-
-<ul className="todo-items">
-{filteredTasks.map(task => (
-<TodoItem
-key={task.id}
-task={task}
-deleteTask={deleteTask}
-toggleCompleted={toggleCompleted}
-/>
-))}
-</ul>
-
+  <ul className="todo-items">
+  {filteredTasks.map(task => (
+  <TodoItem
+  key={task.id}
+  task={task}
+  deleteTask={deleteTask}
+  toggleCompleted={toggleCompleted}
+  />
+  ))}
+  </ul>
 
 <h2>Add task</h2>
-<div className="todo-form">
-<input
-type="text"
-placeholder="Title"
-value={text}
-onChange={e => setText(e.target.value)}
-/>
+ <div className="todo-form">
+  <input
+  type="text"
+  placeholder="Title"
+  value={text}
+  onChange={e => setText(e.target.value)}
+  />
 
-
-<input
-type="text"
-placeholder="Description"
-value={description}
-onChange={e => setDescription(e.target.value)}
-/>
-
+  <input
+  type="text"
+  placeholder="Description"
+  value={description}
+  onChange={e => setDescription(e.target.value)}
+  />
 
 <select value={category} onChange={e => setCategory(e.target.value)}>
 {categories.map(cat => (
