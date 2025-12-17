@@ -7,7 +7,8 @@ const Habitlist = () => {
         habitList,
         increment,
         decrement,
-        removeHabit
+        removeHabit,
+        resetHabit,
     } = useContext(HabitContext)
 
     return(
@@ -25,8 +26,10 @@ const Habitlist = () => {
                             
                             <button className="inc-dec-btn" onClick={() => increment(index)}>➕ Add</button>
                             <button className="inc-dec-btn" onClick={() => decrement(index)}>↩️ Undo</button>
+                            <button className="reset-btn" onClick={() => resetHabit(index)}>Reset</button>
                             <br />
                             <button className="delete-btn" onClick={() => removeHabit(habit.title)}>🗑️ Delete</button>
+                            
                     </div>
                 ))}
                 </div>

@@ -17,8 +17,12 @@ function TodoItem({ task, deleteTask, toggleCompleted }) {
           checked={task.completed}
           onChange={() => toggleCompleted(task.id)}
         />
+
         <label className={`todo-label ${isOverdue ? 'overdue' : ''}`}>
-          {task.text} — <small>{formattedDate}</small>
+          {task.text}
+          <small>
+            {' '}— {formattedDate} | {task.category}
+          </small>
         </label>
       </div>
 
