@@ -39,7 +39,7 @@ function formatTime(minutes) {
         </label>
       </div>
 
-      <div className="btn-group">
+      <div className="delete-btn">
         <button onClick={() => deleteTask(task.id)}>
           Delete
         </button>
