@@ -7,14 +7,14 @@ export const UserContext = createContext()
 export const UserProvider = ({ children }) => {
 
     //skapa states för login + password samt sparade users och inloggade users
-    const [users, setUsers] = useState([])
+    const [user, setUser] = useState([])
 
     //lägga till localstorage
     //funktion för att lägga till ny användare
     //samt ett objekt för ny användare
 
     return(
-        <UserContext.Provider value={ users }>
+        <UserContext.Provider value={{ user, setUser }}>
             {children}
         </UserContext.Provider>
     )

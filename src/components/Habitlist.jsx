@@ -13,7 +13,7 @@ const Habitlist = () => {
         setFilter,
         sortedHabits,
         sortBy,
-        setSortBy
+        setSortBy,
     } = useContext(HabitContext)
 
     return(
@@ -51,9 +51,12 @@ const Habitlist = () => {
                             
                     </div>
                 ))}
+
                 </div>
 
             </div>
+            
+
     
     )
 }
