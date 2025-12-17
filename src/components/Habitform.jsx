@@ -19,7 +19,7 @@ const Habitform = () => {
             
             <form onSubmit={handleSubmit}>
                     <h1>Habits</h1>
-                <label>Describe your habit: </label>
+                <label>Title:</label>
                 <input 
                 type="text" 
                 value={habitInput} 
@@ -27,8 +27,7 @@ const Habitform = () => {
                 placeholder="Title"
                 onChange={(e) => setHabitInput(e.target.value)}/>
 
-
-                <label htmlFor="goal">My daily goal:</label>
+                <label htmlFor="goal">Repetitions:</label>
                 <select 
                 value={goal}
                 id="goal"
