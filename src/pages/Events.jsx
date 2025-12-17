@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "../components/navbar";
 import EventForm from "../components/EventForm";
 import EventList from "../components/EventList";
+import '../index.css'
 
 const Events = () => {
   const [events, setEvents] = useState([]);

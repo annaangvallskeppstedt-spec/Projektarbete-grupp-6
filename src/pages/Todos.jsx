@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from "../components/navbar";
 import TodoList from "../components/TodoList";
-import "../index.css";
+import '../index.css'
 
 function Todos() {
   return (
@@ -10,6 +10,7 @@ function Todos() {
 
       <h1>To Do List</h1>
 
+    
       <TodoList />
     </div>
   );
