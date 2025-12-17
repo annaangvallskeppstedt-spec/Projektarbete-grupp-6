@@ -6,15 +6,35 @@ export const UserContext = createContext()
 //skapar provider
 export const UserProvider = ({ children }) => {
 
-    //skapa states för login + password samt sparade users och inloggade users
-    const [user, setUser] = useState([])
+    const [currentUser, setCurrentUser] = useState([])
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [userlist, setUserlist] = useState(JSON.parse(localStorage.getItem("users")) || [])
 
-    //lägga till localstorage
-    //funktion för att lägga till ny användare
-    //samt ett objekt för ny användare
+    const login = (username, password) => {
+        const user = userlist.find((u) => u.username === username && u.password === password)
+  
+
+    if (user) {
+            setCurrentUser(user)
+            setIsLoggedIn(true)
+            return true
+            } else {
+            return false
+            }
+    }
+    
+    const register = (username, password) => {
+        const newUser = {
+            username,
+            password
+        }
+        const updatedUserlist = [...userlist, newUser]
+        setUserlist(updatedUserlist)
+        localStorage.setItem("users", JSON.stringify(updatedUserlist))
+    }
 
     return(
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ currentUser, isLoggedIn, userlist, login, register }}>
             {children}
         </UserContext.Provider>
     )
