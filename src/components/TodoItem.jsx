@@ -6,6 +6,15 @@ function TodoItem({ task, deleteTask, toggleCompleted }) {
     { month: 'short', day: 'numeric', year: 'numeric' }
   );
 
+function formatTime(minutes) {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+
+  if (hours && mins) return `${hours}h ${mins}m`;
+  if (hours) return `${hours}h`;
+  return `${mins}m`;
+ }
+
   const isOverdue =
     !task.completed && new Date(task.deadline) < new Date();
 
@@ -20,8 +29,12 @@ function TodoItem({ task, deleteTask, toggleCompleted }) {
 
         <label className={`todo-label ${isOverdue ? 'overdue' : ''}`}>
           {task.text}
+          {' '}- {task.description}
           <small>
-            {' '}— {formattedDate} | {task.category}
+            {' '}
+            - {formattedDate}
+            - {formatTime(task.timeEstimate)}
+            - ({task.category})
           </small>
         </label>
       </div>
