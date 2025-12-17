@@ -74,7 +74,7 @@ body {
 
 h1 {
   text-align: center;
-  font-size: 2.4rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #4a4a4a;
 }
@@ -105,7 +105,7 @@ form {
 .btn {
   padding: 0.8rem 1.2rem;
   border-radius: 0.6rem;
-  font-size: 1.6rem;
+   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
@@ -185,7 +185,7 @@ form {
   cursor: pointer;
 }
 .todo-label {
-  font-size: 1.6rem;
+  font-size: 1.1rem;
   color: #333;
 }
 
@@ -209,6 +209,64 @@ button.delete-btn {
 .delete-btn:hover {
   background-color: rgb(209, 32, 32);
 }
+
+.completed-task-list {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+.completed-task-list .cheading {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #555;
+}
+
+
+.completed-task-list table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.completed-task-list thead {
+  background-color: #e9ecef;
+}
+
+.completed-task-list th {
+  text-align: left;
+  padding: 10px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #666;
+}
+
+.completed-task-list td {
+  padding: 10px;
+  font-size: 1.1rem;
+  color: #555;
+  text-align: left;
+}
+
+.completed-task-list tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.completed-task-list tbody tr:last-child {
+  border-bottom: none;
+}
+
+
+.completed-task-list tbody tr td:first-child {
+  text-decoration: line-through;
+  color: #999;
+}
+
 
 .navbar {
   display: flex;
