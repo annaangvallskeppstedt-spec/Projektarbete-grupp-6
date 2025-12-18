@@ -5,7 +5,7 @@ import '../index.css'
 
 function Todos() {
   return (
-    <div className="todoapp">
+     <div className="container">
       <Navbar />
 
       <h2>To Do List</h2>

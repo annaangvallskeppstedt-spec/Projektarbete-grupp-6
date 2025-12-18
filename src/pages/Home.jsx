@@ -15,9 +15,10 @@ const Home = () => {
 
     return(<>
 
-    <Navbar/>
-
-        <h1>Productivity Assistant App</h1>
+    
+    <div className="container">
+      <Navbar/>
+      <h1>Productivity Assistant App</h1>
         
         {!isLoggedIn ? (<>
         <h3>Login</h3>
@@ -51,7 +52,8 @@ const Home = () => {
         </div>
         )
     }
+    </div>
     </>)
-}
 
+}
 export default Home

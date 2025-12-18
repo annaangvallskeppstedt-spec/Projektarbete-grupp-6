@@ -1,5 +1,6 @@
 const EventForm = ({ form, onChange, onSubmit, editingId }) => {
   return (
+    <div className="formContainer">
     <form className="card form" onSubmit={onSubmit}>
       <input
         type="text"
@@ -29,7 +30,8 @@ const EventForm = ({ form, onChange, onSubmit, editingId }) => {
         {editingId ? "Save changes" : "Add event"}
       </button>
     </form>
+    </div>
   );
-};
 
+};
 export default EventForm;
