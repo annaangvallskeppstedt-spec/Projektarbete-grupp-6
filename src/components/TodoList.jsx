@@ -219,13 +219,7 @@ onChange={e => setDeadline(e.target.value)}
     <option value="Relationship">Relationship</option>
   </select>
   <button onClick={resetFilters}>Reset filters</button>
-</div>
-
-
-  
-
-  
- 
+</div> 
 
   <ul className="todo-items">
   {filteredTasks.map(task => (
@@ -234,10 +228,11 @@ onChange={e => setDeadline(e.target.value)}
   task={task}
   deleteTask={deleteTask}
   toggleCompleted={toggleCompleted}
-  updateText={updateText}
-/>
+  updateTask={updateTask}
+  />
   ))}
   </ul>
+  
    <p>Total remaining time: {formatTime(totalTime)}</p>
   <p> {visibleCount} of {totalCount} items</p>
 </div>
