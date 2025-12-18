@@ -221,12 +221,6 @@ onChange={e => setDeadline(e.target.value)}
   <button onClick={resetFilters}>Reset filters</button>
 </div>
 
-
-  
-
-  
- 
-
   <ul className="todo-items">
   {filteredTasks.map(task => (
   <TodoItem
@@ -234,10 +228,11 @@ onChange={e => setDeadline(e.target.value)}
   task={task}
   deleteTask={deleteTask}
   toggleCompleted={toggleCompleted}
-  updateText={updateText}
-/>
+  updateTask={updateTask}
+  />
   ))}
   </ul>
+    
    <p>Total remaining time: {formatTime(totalTime)}</p>
   <p> {visibleCount} of {totalCount} items</p>
 </div>
