@@ -1,7 +1,5 @@
 import React, { useMemo, useState,useEffect } from 'react';
 import TodoItem from './TodoItem';
-import "../index.css";
-
 
 function TodoList() {
   const [text, setText] = useState('');
@@ -293,10 +291,50 @@ onChange={e => setDeadline(e.target.value)}
 />
 
 
-<button onClick={addTask}>Add</button>
-</div>
+<button onClick={addTask}>Add task</button>
 </div>
 
+<div className='listContainer'>
+  <label>Filter by status:</label>
+  <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+  <option value="all">All</option>
+  <option value="active">Not completed</option>
+  <option value="completed">Completed</option>
+  </select>
+
+  <label>Sort by category:</label>
+  <select value={categories} onChange={e => setCategory(e.target.value)}>
+    <option value="Work">Work</option>
+    <option value="Home">Home</option>
+    <option value="Parenting">Parenting</option>
+    <option value="Errands">Errands</option>
+    <option value="Self-care">Self-care</option>
+    <option value="Finance">Finance</option>
+    <option value="Relationship">Relationship</option>
+  </select>
+  <button onClick={resetFilters}>Reset filters</button>
+</div>
+
+
+  
+
+  
+ 
+
+  <ul className="todo-items">
+  {filteredTasks.map(task => (
+  <TodoItem
+  key={task.id}
+  task={task}
+  deleteTask={deleteTask}
+  toggleCompleted={toggleCompleted}
+  updateText={updateText}
+/>
+  ))}
+  </ul>
+   <p>Total remaining time: {formatTime(totalTime)}</p>
+  <p> {visibleCount} of {totalCount} items</p>
+</div>
 );
 }
 

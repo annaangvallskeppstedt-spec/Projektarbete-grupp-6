@@ -1,19 +1,7 @@
-const EventForm = ({
-  form,
-  onChange,
-  onSubmit,
-  editingId,
-}) => {
+const EventForm = ({ form, onChange, onSubmit, editingId }) => {
   return (
-    <form
-      onSubmit={onSubmit}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-        maxWidth: "350px",
-      }}
-    >
+    <div className="formContainer">
+    <form className="card form" onSubmit={onSubmit}>
       <input
         type="text"
         name="name"
@@ -42,7 +30,8 @@ const EventForm = ({
         {editingId ? "Save changes" : "Add event"}
       </button>
     </form>
+    </div>
   );
-};
 
+};
 export default EventForm;
