@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 
 //skapar och exporterar context för users
 export const UserContext = createContext()
@@ -38,4 +38,8 @@ export const UserProvider = ({ children }) => {
             {children}
         </UserContext.Provider>
     )
+}
+
+export const useUser = () => {
+    return useContext(UserContext)
 }
