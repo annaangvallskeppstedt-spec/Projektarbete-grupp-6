@@ -174,16 +174,18 @@ form {
   gap: 0.5rem;
 }
 
-.c-cb {
+.item {
   display: flex;
   align-items: center;
   gap: 0.8rem;
 }
-.c-cb input[type="checkbox"] {
+
+.item input[type="checkbox"] {
   width: 20px;
   height: 20px;
   cursor: pointer;
 }
+
 .todo-label {
   font-size: 1.1rem;
   color: #333;
