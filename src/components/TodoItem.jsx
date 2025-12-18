@@ -1,37 +1,32 @@
 import React, { useState } from 'react';
 
-function TodoItem({ task, deleteTask, toggleCompleted, updateText }) {
+function TodoItem({
+  task,
+  deleteTask,
+  toggleCompleted,
+  updateTask
+}) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editText, setEditText] = useState(task.text);
+  const [form, setForm] = useState({
+    text: task.text,
+    deadline: task.deadline,
+    category: task.category
+  });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+  }
+
+  function saveEdit() {
+    updateTask(task.id, form);
+    setIsEditing(false);
+  }
 
   const formattedDate = new Date(task.deadline).toLocaleDateString(
     'en-US',
     { month: 'short', day: 'numeric', year: 'numeric' }
   );
-
-  function formatTime(minutes) {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-
-    if (hours && mins) return `${hours}h ${mins}m`;
-    if (hours) return `${hours}h`;
-    return `${mins}m`;
-  }
-
-  const isOverdue =
-    !task.completed && new Date(task.deadline) < new Date();
-
-  function saveEdit() {
-    if (editText.trim()) {
-      updateText(task.id, editText.trim());
-    }
-    setIsEditing(false);
-  }
-
-  function cancelEdit() {
-    setEditText(task.text);
-    setIsEditing(false);
-  }
 
   return (
     <li className="todo">
@@ -42,43 +37,48 @@ function TodoItem({ task, deleteTask, toggleCompleted, updateText }) {
           onChange={() => toggleCompleted(task.id)}
         />
 
-        <label className={`todo-label ${isOverdue ? 'overdue' : ''}`}>
-          {isEditing ? (
+        {isEditing ? (
+          <div className="edit-form">
             <input
-              type="text"
-              value={editText}
-              autoFocus
-              onChange={e => setEditText(e.target.value)}
-              onKeyDown={e => {
-                if (e.key === 'Enter') saveEdit();
-                if (e.key === 'Escape') cancelEdit();
-              }}
+              name="text"
+              value={form.text}
+              onChange={handleChange}
             />
-          ) : (
-            <span>{task.text}</span>
-          )}
 
-          {' '}– {task.description}
+            <input
+              type="date"
+              name="deadline"
+              value={form.deadline}
+              onChange={handleChange}
+            />
 
-          <small>
-            {' '}
-            – {formattedDate}
-            – {formatTime(task.timeEstimate)}
-            – ({task.category})
-          </small>
-        </label>
+            <select
+              name="category"
+              value={form.category}
+              onChange={handleChange}
+            >
+              <option value="work">work</option>
+              <option value="home">home</option>
+              <option value="parenting">parenting</option>
+              <option value="errands">errands</option>
+              <option value="self-care">self-care</option>
+              <option value="finance">finance</option>
+              <option value="relationships">relationships</option>
+            </select>
+
+            <button onClick={saveEdit}>Save</button>
+            <button onClick={() => setIsEditing(false)}>Cancel</button>
+          </div>
+        ) : (
+          <label className="todo-label">
+            {task.text} – {formattedDate} ({task.category})
+          </label>
+        )}
       </div>
 
       <div className="actions">
-        {!task.completed && (
-          isEditing ? (
-            <>
-              <button onClick={saveEdit}>Save</button>
-              <button onClick={cancelEdit}>Cancel</button>
-            </>
-          ) : (
-            <button onClick={() => setIsEditing(true)}>Edit</button>
-          )
+        {!isEditing && !task.completed && (
+          <button onClick={() => setIsEditing(true)}>✏️ Edit</button>
         )}
 
         <button onClick={() => deleteTask(task.id)}>

@@ -11,6 +11,8 @@ function TodoList() {
   const [timeEstimate, setTimeEstimate] = useState('');
   const [statusFilter, setStatusFilter] = useState('all'); 
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [sortBy, setSortBy] = useState('deadline');
+  const [sortOrder, setSortOrder] = useState('asc');
 
   const categories = [
     'work',
@@ -19,7 +21,8 @@ function TodoList() {
     'errands',
     'self-care',
     'finance',
-    'relationships'
+    'relationships',
+    'entertainment'
   ];
 
   const [tasks, setTasks] = useState([
@@ -83,6 +86,36 @@ function TodoList() {
   });
   }, [tasks, statusFilter, selectedCategories]);
 
+  const sortedTasks = useMemo(() => {
+  return [...filteredTasks].sort((a, b) => {
+    let valueA, valueB;
+
+    switch (sortBy) {
+      case 'deadline':
+        valueA = new Date(a.deadline);
+        valueB = new Date(b.deadline);
+        break;
+
+      case 'timeEstimate':
+        valueA = a.timeEstimate;
+        valueB = b.timeEstimate;
+        break;
+
+      case 'status':
+        valueA = a.completed;
+        valueB = b.completed;
+        break;
+
+      default:
+        return 0;
+    }
+
+    if (valueA < valueB) return sortOrder === 'asc' ? -1 : 1;
+    if (valueA > valueB) return sortOrder === 'asc' ? 1 : -1;
+    return 0;
+  });
+}, [filteredTasks, sortBy, sortOrder]);
+
   const totalCount = tasks.length;
   const visibleCount = filteredTasks.length;
 
@@ -139,9 +172,9 @@ function TodoList() {
   setTasks(tasks.filter(task => task.id !== id));
   }
 
-  function updateText(id, newText) {
+  function updateTask(id, updatedFields) {
   setTasks(tasks.map(task =>
-    task.id === id ? { ...task, text: newText } : task
+    task.id === id ? { ...task, ...updatedFields } : task
   ));
 }
   function toggleCompleted(id) {
@@ -190,8 +223,23 @@ function TodoList() {
 
   <button onClick={resetFilters}>Reset filters</button>
 
-  <p>Visar {visibleCount} av {totalCount} ärenden</p>
+  <p> {visibleCount} items out of {totalCount}</p>
   <p>Total remaining time: {formatTime(totalTime)}</p>
+
+  <h2>Sort</h2>
+
+<select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+  <option value="deadline">Deadline</option>
+  <option value="timeEstimate">Duration</option>
+  <option value="status">Status</option>
+</select>
+
+<button onClick={() =>
+  setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+}>
+  {sortOrder === 'asc' ? 'Stigande ↑' : 'Fallande ↓'}
+</button>
+
 
   <ul className="todo-items">
   {filteredTasks.map(task => (
@@ -200,7 +248,7 @@ function TodoList() {
   task={task}
   deleteTask={deleteTask}
   toggleCompleted={toggleCompleted}
-  updateText={updateText}
+  updateTask={updateTask}
 />
   ))}
   </ul>
