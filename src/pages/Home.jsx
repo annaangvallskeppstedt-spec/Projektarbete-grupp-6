@@ -25,7 +25,7 @@ const Home = () => {
         <Login />
         </>
         ) : (
-        <div className="container-overview">    <h1>Overview</h1> 
+        <div className="container-overview">   
 
         <div className="todo-overview">
         <h3>My Todos</h3>
@@ -38,15 +38,16 @@ const Home = () => {
 
         <div className="habits-overview">
             <h3>My Habits</h3>
-            <ul>
+
                 {sortedHabits && sortedHabits.length > 0 ? (
-                sortedHabits.map(habit => (
-                    <li key={habit.id}>{habit.title}</li>
-                ))
+                    sortedHabits
+                    .sort((a, b) => b.progress - a.progress) //flest repetitioner först
+                    .slice(0, 3) //tar de 3 första
+                .map(habit => <p key={habit.id}>{habit.title} - {habit.progress} repetitions</p>)
             ) : ( 
-                <li>No habits yet</li>
+                <p>No habits yet</p>
             )}
-            </ul>
+
         </div>
 
         </div>
