@@ -24,9 +24,8 @@ const Home = () => {
         <h3>Login</h3>
         <Login />
         </>
-        ) : (
+        ) : ( <div> <h2>Welcome {isLoggedIn}</h2>
         <div className="container-overview">   
-
         <div className="todo-overview">
         <h3>My Todos</h3>
         
@@ -50,6 +49,7 @@ const Home = () => {
 
         </div>
 
+        </div>
         </div>
         )
     }

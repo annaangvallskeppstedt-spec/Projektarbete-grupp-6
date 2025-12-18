@@ -231,9 +231,33 @@ input, select {
   margin: 0.5rem;
 }
 
+.container-overview {
+  display: flex;
+  justify-content: center;
+  max-width: 600px;
+  margin: auto;
+}
 
 .habits-overview {
-  border: solid #d8d5d544;
+  border: solid 1px #afadad44;
   border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 1rem;
+  margin: 10px;
+}
+
+.event-overview {
+  border: solid 1px #afadad44;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  margin: 10px;
+}
+
+.todo-overview {
+  border: solid 1px #afadad44;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  margin: 10px;
 }
