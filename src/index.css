@@ -3,13 +3,17 @@
   box-sizing: border-box;
 }
 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+}
+
 body {
-  margin: 0;
   min-height: 100vh;
   font-family: system-ui, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(0, 0, 0, 0.87);
   background-color: #242424;
 }
 
@@ -17,7 +21,7 @@ h1 {
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
-  color: #4a4a4a;
+  color: #000000;
   margin-bottom: 1rem;
 }
 
@@ -139,6 +143,7 @@ form {
   background-color: #f8f9fa;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   gap: 1rem;
+  
 }
 .todo .btn-group {
   gap: 0.5rem;
@@ -149,11 +154,13 @@ form {
   align-items: center;
   gap: 0.8rem;
 }
+
 .c-cb input[type="checkbox"] {
   width: 20px;
   height: 20px;
   cursor: pointer;
 }
+
 .todo-label {
   font-size: 1.1rem;
   color: #333;
@@ -235,11 +242,6 @@ button.delete-btn {
   color: #999;
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-}
-
 .container {
   max-width: 900px;
   margin: auto;
@@ -253,7 +255,7 @@ button.delete-btn {
   border: 1px solid white;
   border-radius: 8px;
   padding: 0.5rem;
-  background-color: ghostwhite
+  background-color: white;
 }
 
 .habit-card-container {
