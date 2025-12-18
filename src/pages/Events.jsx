@@ -79,32 +79,40 @@ const Events = () => {
   });
 
   return (
-    <div className="container">
-      <Navbar />
+  <div className="container">
+    <Navbar />
 
-      <h2>Event Planner</h2>
+    <h2>Event Planner</h2>
 
-      <EventForm
-        form={form}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        editingId={editingId}
-      />
-
-      <div style={{ marginTop: "20px" }}>
-        <button onClick={() => setFilter("all")}>All events</button>
-        <button onClick={() => setFilter("future")}>Future</button>
-        <button onClick={() => setFilter("past")}>Past</button>
+    <div className="events-layout">
+      {/* Vänster spalt */}
+      <div className="events-left">
+        <EventForm
+          form={form}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+          editingId={editingId}
+        />
       </div>
 
-      <EventList
-        events={filteredEvents}
-        now={now}
-        onEdit={editEvent}
-        onDelete={deleteEvent}
-      />
+      {/* Höger spalt */}
+      <div className="events-right">
+        <div className="event-filters">
+          <button onClick={() => setFilter("all")}>All events</button>
+          <button onClick={() => setFilter("future")}>Future</button>
+          <button onClick={() => setFilter("past")}>Past</button>
+        </div>
+
+        <EventList
+          events={filteredEvents}
+          now={now}
+          onEdit={editEvent}
+          onDelete={deleteEvent}
+        />
+      </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default Events;
