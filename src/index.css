@@ -14,10 +14,12 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4a4a4a;
+  margin-bottom: 1rem;
 }
-
 
 button {
   border: none;
@@ -35,14 +37,6 @@ button {
 button:hover {
   background-color: #6f4175;
   color: white;
-}
-
-h1 {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #4a4a4a;
-  margin-bottom: 1rem;
 }
 
 .todo-label.overdue {
@@ -108,9 +102,11 @@ form {
   justify-content: center;
   gap: 1rem;
 }
+
 .filters .btn {
   background-color: #eee;
 }
+
 .filters .btn:hover {
   background-color: #ddd;
 }
@@ -133,6 +129,7 @@ form {
   list-style: none;
   padding: 0;
 }
+
 .todo {
   display: flex;
   justify-content: space-between;
@@ -197,7 +194,6 @@ button.delete-btn {
   color: #555;
 }
 
-
 .completed-task-list table {
   width: 100%;
   border-collapse: collapse;
@@ -234,12 +230,10 @@ button.delete-btn {
   border-bottom: none;
 }
 
-
 .completed-task-list tbody tr td:first-child {
   text-decoration: line-through;
   color: #999;
 }
-
 
 .navbar {
   display: flex;
@@ -259,7 +253,7 @@ button.delete-btn {
   border: 1px solid white;
   border-radius: 8px;
   padding: 0.5rem;
-  background-color: #535554;
+  background-color: ghostwhite
 }
 
 .habit-card-container {
@@ -273,7 +267,7 @@ button.delete-btn {
   flex-direction: column;
   width: 180px;
   border: solid 1px white;
-  background-color: #535554;
+  background-color: white;
   border-radius: 8px;
   padding: 0.5rem;
   list-style: none;
@@ -290,14 +284,4 @@ input, select {
   margin-bottom: 1rem;
 }
 
-
-
-/* .delete-btn:hover {
-  background-color: rgb(199, 7, 7);
-}
-
-.delete-btn:active {
-  background-color: rgb(163, 4, 4);
-  transform: translateY(2px)
-} */
 
