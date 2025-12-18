@@ -1,5 +1,6 @@
 import { useState, useContext } from "react"
 import { UserContext } from "../context/UserContext";
+import { useState } from "react"
 
 const Login = () => {
 
@@ -20,6 +21,20 @@ const Login = () => {
             alert("Wrong username or password.")
         }
         
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [userlist, setUserlist] = useState(null)
+
+    const handleLogin = (e) => {
+        e.preventDefault()
+        const users = JSON.parse(localStorage.getItem("users") || [])
+        const user = user.find(u => u.username === username && u.password === password)
+        if (user) {
+            setCurrentUserlist(user)
+            setIsLoggedIn(true)
+        } else {
+            alert("Wrong username or password.")
+        }
+
         setUsername("")
         setPassword("")
     }
