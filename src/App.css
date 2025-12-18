@@ -1,6 +1,6 @@
 #root {
   background-color: ghostwhite;
-  color:limegreen
+  color:rgb(0, 0, 0)
   max-width: 1200px;
   margin: 10;
   padding: 2rem;
@@ -11,6 +11,7 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .container {
   background-color: #ffffff;
   padding: 2rem 2.5rem;
@@ -21,8 +22,4 @@
   margin: 10;
 }
 
-.card {
-  padding: 1.5rem;
-  border-radius: 8px;
-  background-color: #FFB8D1;
-}
+

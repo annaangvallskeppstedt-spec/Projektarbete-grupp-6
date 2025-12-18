@@ -2,7 +2,7 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import EventForm from "../components/EventForm";
 import EventList from "../components/EventList";
-import '../index.css'
+import "../index.css";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -36,43 +36,37 @@ const Events = () => {
   };
 
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
+    if (!form.name || !form.start || !form.end) return;
 
-  if (!form.name || !form.start || !form.end) return;
+    const startDate = new Date(form.start);
+    const endDate = new Date(form.end);
 
-  const startDate = new Date(form.start);
-  const endDate = new Date(form.end);
+    if (editingId) {
+      setEvents((prev) =>
+        prev
+          .map((ev) =>
+            ev.id === editingId
+              ? { ...ev, name: form.name, start: startDate, end: endDate }
+              : ev
+          )
+          .sort((a, b) => a.start - b.start)
+      );
+    } else {
+      const newEvent = {
+        id: Date.now(),
+        name: form.name,
+        start: startDate,
+        end: endDate,
+      };
 
-  if (editingId) {
-    setEvents((prev) =>
-      prev
-        .map((ev) =>
-          ev.id === editingId
-            ? {
-                ...ev,
-                name: form.name,
-                start: startDate,
-                end: endDate,
-              }
-            : ev
-        )
-        .sort((a, b) => a.start - b.start)
-    );
-  } else {
-    const newEvent = {
-      id: Date.now(),
-      name: form.name,
-      start: startDate,
-      end: endDate,
-    };
+      setEvents((prev) =>
+        [...prev, newEvent].sort((a, b) => a.start - b.start)
+      );
+    }
 
-    setEvents((prev) =>
-      [...prev, newEvent].sort((a, b) => a.start - b.start)
-    );
-  }
-
-  resetForm();
-};
+    resetForm();
+  };
 
   const deleteEvent = (id) => {
     setEvents(events.filter((e) => e.id !== id));
