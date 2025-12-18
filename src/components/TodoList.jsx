@@ -199,30 +199,12 @@ function TodoList() {
   onChange={e => setText(e.target.value)}
   />
 
-  <h2>Sort items  by:</h2>
-  <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
-  <option value="deadline">Deadline</option>
-  <option value="time">Duration</option>
-  <option value="status">Status</option>
-</select>
-
-<select value={sortOrder} onChange={e => setSortOrder(e.target.value)}>
-  <option value="asc">Ascending order</option>
-  <option value="desc">Descending order</option>
-</select>
-
-  <input
+    <input
   type="text"
   placeholder="Description"
   value={description}
   onChange={e => setDescription(e.target.value)}
   />
-
-<select value={category} onChange={e => setCategory(e.target.value)}>
-{categories.map(cat => (
-<option key={cat} value={cat}>{cat}</option>
-))}
-</select>
 
 <input
 type="number"
@@ -239,6 +221,27 @@ onChange={e => setDeadline(e.target.value)}
 />
 
 <button onClick={addTask}>Add task</button>
+</div>
+  <p>Sort items by:</p>
+  <div className='sortItems'>
+  <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+  <option value="">Status</option>
+  <option value="deadline">Deadline</option>
+  <option value="time">Duration</option>
+  </select>
+
+<select value={sortOrder} onChange={e => setSortOrder(e.target.value)}>
+  <option value="">Order</option>
+  <option value="asc">Ascending order</option>
+  <option value="desc">Descending order</option>
+</select>
+
+<select value={category} onChange={e => setCategory(e.target.value)}>
+  <option value="">Category</option>
+{categories.map(cat => (
+<option key={cat} value={cat}>{cat}</option>
+))}
+</select>
 </div>
 
 <div className='listContainer'>
