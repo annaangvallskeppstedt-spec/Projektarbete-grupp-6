@@ -26,16 +26,19 @@ h1 {
 }
 
 button {
-  border: none;
+  border: rgb(255, 238, 52);
   border-radius: 50px;
-  color: #3b3c3a;
-  background-color: rgb(255, 255, 255);
+  color: #323232;
+  background-color: rgb(255, 245, 132);
   cursor: pointer;
   height: 38px;
   font-size: 14px;
   font-weight: bold;
   padding: 8px 20px;
   transition: 0.3s;
+  width: auto;
+  align-self: center;
+  margin: 0.2rem;
 }
 
 button:hover {
