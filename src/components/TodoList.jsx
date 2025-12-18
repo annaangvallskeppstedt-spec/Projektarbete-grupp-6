@@ -1,5 +1,6 @@
 import React, { useMemo, useState,useEffect } from 'react';
 import TodoItem from './TodoItem';
+import "../index.css";
 
 function TodoList() {
   const [text, setText] = useState('');
