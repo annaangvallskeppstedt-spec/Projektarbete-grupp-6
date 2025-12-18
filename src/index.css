@@ -261,3 +261,84 @@ input, select {
   padding: 1rem;
   margin: 10px;
 }
+
+.event-card {
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  border: solid 1px rgb(241, 241, 241);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  list-style: none;
+}
+
+.events-layout {
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.events-left {
+  position: sticky;
+  top: 2rem;
+}
+
+.event-filters {
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.event-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+/* När input har värde eller fokus */
+.datetime-field input:focus + .floating-label,
+.datetime-field input:not(:placeholder-shown) + .floating-label {
+  top: -6px;
+  font-size: 0.7rem;
+  color: #555;
+}
+
+.event-form {
+  max-width: 700px;
+}
+
+.event-form-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+/* Gör datetime-fälten lite kompaktare */
+.field input[type="datetime-local"] {
+  font-size: 0.85rem;
+}
+
+.event.past {
+  color: #999;
+}
+
+.event.past strong {
+  color: #777;
+}
