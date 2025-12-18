@@ -314,11 +314,6 @@ onChange={e => setDeadline(e.target.value)}
   </select>
   <button onClick={resetFilters}>Reset filters</button>
 </div>
-
-
-  
-
-  
  
 
   <ul className="todo-items">
@@ -328,7 +323,7 @@ onChange={e => setDeadline(e.target.value)}
   task={task}
   deleteTask={deleteTask}
   toggleCompleted={toggleCompleted}
-  updateText={updateText}
+  updateTask={updateTask}
 />
   ))}
   </ul>
