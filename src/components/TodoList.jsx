@@ -11,6 +11,10 @@ function TodoList() {
   const [timeEstimate, setTimeEstimate] = useState('');
   const [statusFilter, setStatusFilter] = useState('all'); 
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [sortBy, setSortBy] = useState(localStorage.getItem('sortBy') ||
+  'deadline');
+  const [sortOrder, setSortOrder] = useState(localStorage.getItem('sortOrder') || 'asc');
+
 
   const categories = [
     'Work',
@@ -67,6 +71,11 @@ function TodoList() {
   );
   }, [statusFilter, selectedCategories]);
 
+  useEffect(() => {
+  localStorage.setItem('sortBy', sortBy);
+  localStorage.setItem('sortOrder', sortOrder);
+  }, [sortBy, sortOrder]);
+
   const filteredTasks = useMemo(() => {
   return tasks.filter(task => {
   if (statusFilter === 'completed' && !task.completed) return false;
@@ -82,6 +91,29 @@ function TodoList() {
   return true;
   });
   }, [tasks, statusFilter, selectedCategories]);
+  const sortedTasks = useMemo(() => {
+  const sorted = [...filteredTasks];
+
+  sorted.sort((a, b) => {
+    let result = 0;
+
+    if (sortBy === 'deadline') {
+      result = new Date(a.deadline) - new Date(b.deadline);
+    }
+
+    if (sortBy === 'time') {
+      result = a.timeEstimate - b.timeEstimate;
+    }
+
+    if (sortBy === 'status') {
+      result = Number(a.completed) - Number(b.completed);
+    }
+
+    return sortOrder === 'asc' ? result : -result;
+  });
+
+  return sorted;
+}, [filteredTasks, sortBy, sortOrder]);
 
   const totalCount = tasks.length;
   const visibleCount = filteredTasks.length;
@@ -166,6 +198,18 @@ function TodoList() {
   value={text}
   onChange={e => setText(e.target.value)}
   />
+
+  <h2>Sort items  by:</h2>
+  <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+  <option value="deadline">Deadline</option>
+  <option value="time">Duration</option>
+  <option value="status">Status</option>
+</select>
+
+<select value={sortOrder} onChange={e => setSortOrder(e.target.value)}>
+  <option value="asc">Ascending order</option>
+  <option value="desc">Descending order</option>
+</select>
 
   <input
   type="text"
