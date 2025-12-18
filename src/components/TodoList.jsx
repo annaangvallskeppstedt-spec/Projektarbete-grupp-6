@@ -1,3 +1,4 @@
+
 import React, { useMemo, useState,useEffect } from 'react';
 import TodoItem from './TodoItem';
 
@@ -10,8 +11,6 @@ function TodoList() {
   const [timeEstimate, setTimeEstimate] = useState('');
   const [statusFilter, setStatusFilter] = useState('all'); 
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [sortBy, setSortBy] = useState('deadline');
-  const [sortOrder, setSortOrder] = useState('asc');
 
   const categories = [
     'work',
@@ -20,8 +19,7 @@ function TodoList() {
     'errands',
     'self-care',
     'finance',
-    'relationships',
-    'entertainment'
+    'relationships'
   ];
 
   const [tasks, setTasks] = useState([
@@ -85,36 +83,6 @@ function TodoList() {
   });
   }, [tasks, statusFilter, selectedCategories]);
 
-  const sortedTasks = useMemo(() => {
-  return [...filteredTasks].sort((a, b) => {
-    let valueA, valueB;
-
-    switch (sortBy) {
-      case 'deadline':
-        valueA = new Date(a.deadline);
-        valueB = new Date(b.deadline);
-        break;
-
-      case 'timeEstimate':
-        valueA = a.timeEstimate;
-        valueB = b.timeEstimate;
-        break;
-
-      case 'status':
-        valueA = a.completed;
-        valueB = b.completed;
-        break;
-
-      default:
-        return 0;
-    }
-
-    if (valueA < valueB) return sortOrder === 'asc' ? -1 : 1;
-    if (valueA > valueB) return sortOrder === 'asc' ? 1 : -1;
-    return 0;
-  });
-}, [filteredTasks, sortBy, sortOrder]);
-
   const totalCount = tasks.length;
   const visibleCount = filteredTasks.length;
 
@@ -171,9 +139,9 @@ function TodoList() {
   setTasks(tasks.filter(task => task.id !== id));
   }
 
-  function updateTask(id, updatedFields) {
+  function updateText(id, newText) {
   setTasks(tasks.map(task =>
-    task.id === id ? { ...task, ...updatedFields } : task
+    task.id === id ? { ...task, text: newText } : task
   ));
 }
   function toggleCompleted(id) {
@@ -191,68 +159,6 @@ function TodoList() {
 
   return (
   <div className="todo-list">
-  <h2>Filters</h2>
-
-  <label>Status</label>
-  <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
-  <option value="all">Alla</option>
-  <option value="active">Ej utförda</option>
-  <option value="completed">Slutförda</option>
-  </select>
-
-  <fieldset>
-  <legend>Kategorier</legend>
-  {categories.map(cat => (
-  <label key={cat} style={{ display: 'block' }}>
-  <input
-  type="checkbox"
-  checked={selectedCategories.includes(cat)}
-  onChange={e => {
-  if (e.target.checked) {
-  setSelectedCategories([...selectedCategories, cat]);
-  } else {
-  setSelectedCategories(selectedCategories.filter(c => c !== cat));
-  }
-  }}
-  />
-  {cat} ({categoryCounts[cat] || 0})
-  </label>
-  ))}
-  </fieldset>
-
-  <button onClick={resetFilters}>Reset filters</button>
-
-  <p> {visibleCount} items out of {totalCount}</p>
-  <p>Total remaining time: {formatTime(totalTime)}</p>
-
-  <h2>Sort</h2>
-
-<select value={sortBy} onChange={e => setSortBy(e.target.value)}>
-  <option value="deadline">Deadline</option>
-  <option value="timeEstimate">Duration</option>
-  <option value="status">Status</option>
-</select>
-
-<button onClick={() =>
-  setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
-}>
-  {sortOrder === 'asc' ? 'Stigande ↑' : 'Fallande ↓'}
-</button>
-
-
-  <ul className="todo-items">
-  {filteredTasks.map(task => (
-  <TodoItem
-  key={task.id}
-  task={task}
-  deleteTask={deleteTask}
-  toggleCompleted={toggleCompleted}
-  updateTask={updateTask}
-/>
-  ))}
-  </ul>
-
-<h2>Add task</h2>
  <div className="todo-form">
   <input
   type="text"
