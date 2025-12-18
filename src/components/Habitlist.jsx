@@ -43,9 +43,9 @@ const Habitlist = () => {
                         <p>Priority: {habit.priority} </p>
                         <p>Progress: {habit.progress} / {habit.goal}</p>  
                             
-                            <button className="inc-dec-btn" onClick={() => increment(habit.id)}>➕ Add</button>
-                            <button className="inc-dec-btn" onClick={() => decrement(habit.id)}>↩️ Undo</button>
-                            <button className="reset-btn" onClick={() => resetHabit(habit.id)}>Reset</button>
+                            <button onClick={() => increment(habit.id)}>➕ Add</button>
+                            <button onClick={() => decrement(habit.id)}>↩️ Undo</button>
+                            <button onClick={() => resetHabit(habit.id)}>Reset</button>
                             <br />
                             <button className="delete-btn" onClick={() => removeHabit(habit.id)}>🗑️ Delete</button>
                             
