@@ -1,5 +1,5 @@
 import React from "react"
-import Navbar from "../components/navbar"
+import Navbar from "../components/Navbar"
 import Login from "../components/login"
 import { useUser } from "../context/UserContext"
 import { HabitContext } from "../context/HabitContext"
