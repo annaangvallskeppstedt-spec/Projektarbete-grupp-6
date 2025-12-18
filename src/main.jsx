@@ -9,11 +9,11 @@ import { HabitProvider } from './context/HabitContext.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-    <HabitProvider>
     <UserProvider>
+    <HabitProvider>
     <App />
-    </UserProvider>
     </HabitProvider>
+    </UserProvider>
     </BrowserRouter>
   </StrictMode>
 )
