@@ -5,10 +5,10 @@ import '../index.css'
 
 function Todos() {
   return (
-    <div className="todoapp">
+     <div className="container">
       <Navbar />
 
-      <h1>To Do List</h1>
+      <h2>To Do List</h2>
 
     
       <TodoList />

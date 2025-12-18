@@ -1,7 +1,5 @@
 import React, { useMemo, useState,useEffect } from 'react';
 import TodoItem from './TodoItem';
-import "../index.css";
-
 
 function TodoList() {
   const [text, setText] = useState('');
@@ -160,53 +158,6 @@ function TodoList() {
 
   return (
   <div className="todo-list">
-  <h2>Filters</h2>
-
-  <label>Status</label>
-  <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
-  <option value="all">Alla</option>
-  <option value="active">Ej utförda</option>
-  <option value="completed">Slutförda</option>
-  </select>
-
-  <fieldset>
-  <legend>Kategorier</legend>
-  {categories.map(cat => (
-  <label key={cat} style={{ display: 'block' }}>
-  <input
-  type="checkbox"
-  checked={selectedCategories.includes(cat)}
-  onChange={e => {
-  if (e.target.checked) {
-  setSelectedCategories([...selectedCategories, cat]);
-  } else {
-  setSelectedCategories(selectedCategories.filter(c => c !== cat));
-  }
-  }}
-  />
-  {cat} ({categoryCounts[cat] || 0})
-  </label>
-  ))}
-  </fieldset>
-
-  <button onClick={resetFilters}>Reset filters</button>
-
-  <p>Visar {visibleCount} av {totalCount} ärenden</p>
-  <p>Total remaining time: {formatTime(totalTime)}</p>
-
-  <ul className="todo-items">
-  {filteredTasks.map(task => (
-  <TodoItem
-  key={task.id}
-  task={task}
-  deleteTask={deleteTask}
-  toggleCompleted={toggleCompleted}
-  updateText={updateText}
-/>
-  ))}
-  </ul>
-
-<h2>Add task</h2>
  <div className="todo-form">
   <input
   type="text"
@@ -245,10 +196,50 @@ onChange={e => setDeadline(e.target.value)}
 />
 
 
-<button onClick={addTask}>Add</button>
-</div>
+<button onClick={addTask}>Add task</button>
 </div>
 
+<div className='listContainer'>
+  <label>Filter by status:</label>
+  <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+  <option value="all">All</option>
+  <option value="active">Not completed</option>
+  <option value="completed">Completed</option>
+  </select>
+
+  <label>Sort by category:</label>
+  <select value={categories} onChange={e => setCategory(e.target.value)}>
+    <option value="Work">Work</option>
+    <option value="Home">Home</option>
+    <option value="Parenting">Parenting</option>
+    <option value="Errands">Errands</option>
+    <option value="Self-care">Self-care</option>
+    <option value="Finance">Finance</option>
+    <option value="Relationship">Relationship</option>
+  </select>
+  <button onClick={resetFilters}>Reset filters</button>
+</div>
+
+
+  
+
+  
+ 
+
+  <ul className="todo-items">
+  {filteredTasks.map(task => (
+  <TodoItem
+  key={task.id}
+  task={task}
+  deleteTask={deleteTask}
+  toggleCompleted={toggleCompleted}
+  updateText={updateText}
+/>
+  ))}
+  </ul>
+   <p>Total remaining time: {formatTime(totalTime)}</p>
+  <p> {visibleCount} of {totalCount} items</p>
+</div>
 );
 }
 

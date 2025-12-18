@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
+
 function TodoItem({ task, deleteTask, toggleCompleted, updateText }) {
+
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(task.text);
 
@@ -17,7 +19,7 @@ function TodoItem({ task, deleteTask, toggleCompleted, updateText }) {
     if (hours) return `${hours}h`;
     return `${mins}m`;
   }
-
+  
   const isOverdue =
     !task.completed && new Date(task.deadline) < new Date();
 
@@ -34,6 +36,8 @@ function TodoItem({ task, deleteTask, toggleCompleted, updateText }) {
   }
 
   return (
+    
+<div className="formContainer">
     <li className="todo">
       <div className="c-cb">
         <input
@@ -86,6 +90,7 @@ function TodoItem({ task, deleteTask, toggleCompleted, updateText }) {
         </button>
       </div>
     </li>
+    </div>
   );
 }
 

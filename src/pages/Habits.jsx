@@ -1,7 +1,7 @@
 import Navbar from "../components/navbar"
 import Habitform from "../components/Habitform"
 import Habitlist from "../components/Habitlist"
-
+import "../index.css";
 
 const Habits = () => {
 

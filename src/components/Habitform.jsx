@@ -15,10 +15,10 @@ const Habitform = () => {
 
     return(
 
-        <div className="addNewHabit">
+        <div className="formContainer">
             
             <form onSubmit={handleSubmit}>
-                    <h1>Habits</h1>
+                    <h2>Habits</h2>
                 <label>Title:</label>
                 <input 
                 type="text" 
