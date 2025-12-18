@@ -139,6 +139,11 @@ function TodoList() {
   setTasks(tasks.filter(task => task.id !== id));
   }
 
+  function updateText(id, newText) {
+  setTasks(tasks.map(task =>
+    task.id === id ? { ...task, text: newText } : task
+  ));
+}
   function toggleCompleted(id) {
   setTasks(
   tasks.map(task =>
@@ -195,7 +200,8 @@ function TodoList() {
   task={task}
   deleteTask={deleteTask}
   toggleCompleted={toggleCompleted}
-  />
+  updateText={updateText}
+/>
   ))}
   </ul>
 

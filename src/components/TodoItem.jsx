@@ -1,22 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function TodoItem({ task, deleteTask, toggleCompleted }) {
+function TodoItem({ task, deleteTask, toggleCompleted, updateText }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState(task.text);
+
   const formattedDate = new Date(task.deadline).toLocaleDateString(
     'en-US',
     { month: 'short', day: 'numeric', year: 'numeric' }
   );
 
-function formatTime(minutes) {
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
+  function formatTime(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
 
-  if (hours && mins) return `${hours}h ${mins}m`;
-  if (hours) return `${hours}h`;
-  return `${mins}m`;
- }
+    if (hours && mins) return `${hours}h ${mins}m`;
+    if (hours) return `${hours}h`;
+    return `${mins}m`;
+  }
 
   const isOverdue =
     !task.completed && new Date(task.deadline) < new Date();
+
+  function saveEdit() {
+    if (editText.trim()) {
+      updateText(task.id, editText.trim());
+    }
+    setIsEditing(false);
+  }
+
+  function cancelEdit() {
+    setEditText(task.text);
+    setIsEditing(false);
+  }
 
   return (
     <li className="todo">
@@ -28,18 +43,44 @@ function formatTime(minutes) {
         />
 
         <label className={`todo-label ${isOverdue ? 'overdue' : ''}`}>
-          {task.text}
-          {' '}- {task.description}
+          {isEditing ? (
+            <input
+              type="text"
+              value={editText}
+              autoFocus
+              onChange={e => setEditText(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') saveEdit();
+                if (e.key === 'Escape') cancelEdit();
+              }}
+            />
+          ) : (
+            <span>{task.text}</span>
+          )}
+
+          {' '}– {task.description}
+
           <small>
             {' '}
-            - {formattedDate}
-            - {formatTime(task.timeEstimate)}
-            - ({task.category})
+            – {formattedDate}
+            – {formatTime(task.timeEstimate)}
+            – ({task.category})
           </small>
         </label>
       </div>
 
-      <div className="delete-btn">
+      <div className="actions">
+        {!task.completed && (
+          isEditing ? (
+            <>
+              <button onClick={saveEdit}>Save</button>
+              <button onClick={cancelEdit}>Cancel</button>
+            </>
+          ) : (
+            <button onClick={() => setIsEditing(true)}>Edit</button>
+          )
+        )}
+
         <button onClick={() => deleteTask(task.id)}>
           Delete
         </button>
