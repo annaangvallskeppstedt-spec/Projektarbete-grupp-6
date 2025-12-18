@@ -8,10 +8,13 @@ function TodoItem({
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [form, setForm] = useState({
-    text: task.text,
-    deadline: task.deadline,
-    category: task.category
-  });
+  text: task.text,
+  description: task.description,
+  deadline: task.deadline,
+  category: task.category,
+  timeEstimate: task.timeEstimate
+});
+
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -28,7 +31,10 @@ function TodoItem({
     { month: 'short', day: 'numeric', year: 'numeric' }
   );
 
-  return (
+  const isOverdue =
+  !task.completed && new Date(task.deadline) < new Date();
+
+    return (
     
 <div className="formContainer">
     <li className="todo">
@@ -40,7 +46,7 @@ function TodoItem({
         />
 
         {isEditing ? (
-          <div className="edit-form">
+          <div className="editForm">
             <input
               name="text"
               value={form.text}
@@ -53,6 +59,22 @@ function TodoItem({
               value={form.deadline}
               onChange={handleChange}
             />
+
+            <input
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              placeholder="Description"
+              />
+
+            <input
+              type="number"
+              name="timeEstimate"
+              value={form.timeEstimate}
+              onChange={handleChange}
+              min="1"
+              placeholder="Minutes"
+              />
 
             <select
               name="category"
@@ -72,10 +94,17 @@ function TodoItem({
             <button onClick={() => setIsEditing(false)}>Cancel</button>
           </div>
         ) : (
-          <label className="todo-label">
-            {task.text} – {formattedDate} ({task.category})
-          </label>
-        )}
+          <label className={`todoLabel ${isOverdue ? 'overdue' : ''}`}>
+    {task.text}
+    {' '}- {task.description}
+    <small>
+      {' '}
+      - {formattedDate}
+      - {task.timeEstimate} min
+      - ({task.category})
+    </small>
+  </label>
+)}
       </div>
 
       <div className="actions">
