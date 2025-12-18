@@ -13,13 +13,13 @@ function TodoList() {
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   const categories = [
-    'work',
-    'home',
-    'parenting',
-    'errands',
-    'self-care',
-    'finance',
-    'relationships'
+    'Work',
+    'Home',
+    'Parenting',
+    'Errands',
+    'Self-care',
+    'Finance',
+    'Relationships'
   ];
 
   const [tasks, setTasks] = useState([
@@ -139,7 +139,7 @@ function TodoList() {
   setTasks(tasks.filter(task => task.id !== id));
   }
 
-  function updateText(id, newText) {
+  function updateTask(id, newText) {
   setTasks(tasks.map(task =>
     task.id === id ? { ...task, text: newText } : task
   ));
@@ -180,7 +180,6 @@ function TodoList() {
 ))}
 </select>
 
-
 <input
 type="number"
 placeholder="Time estimate (minutes)"
@@ -189,13 +188,11 @@ onChange={e => setTimeEstimate(e.target.value)}
 min="1"
 />
 
-
 <input
 type="date"
 value={deadline}
 onChange={e => setDeadline(e.target.value)}
 />
-
 
 <button onClick={addTask}>Add task</button>
 </div>
@@ -208,24 +205,21 @@ onChange={e => setDeadline(e.target.value)}
   <option value="completed">Completed</option>
   </select>
 
-  <label>Sort by category:</label>
-  <select value={categories} onChange={e => setCategory(e.target.value)}>
-    <option value="Work">Work</option>
-    <option value="Home">Home</option>
-    <option value="Parenting">Parenting</option>
-    <option value="Errands">Errands</option>
-    <option value="Self-care">Self-care</option>
-    <option value="Finance">Finance</option>
-    <option value="Relationship">Relationship</option>
-  </select>
+<label>Filter by category:</label>
+<select
+  value={filterCategory}
+  onChange={e => setFilterCategory(e.target.value)}
+>
+  <option value="all">All</option>
+  {categories.map(cat => (
+    <option key={cat} value={cat}>
+      {cat}
+    </option>
+  ))}
+</select>
+
   <button onClick={resetFilters}>Reset filters</button>
 </div>
-
-
-  
-
-  
- 
 
   <ul className="todo-items">
   {filteredTasks.map(task => (
