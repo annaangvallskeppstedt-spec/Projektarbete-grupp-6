@@ -14,8 +14,7 @@ function TodoList() {
   const [sortBy, setSortBy] = useState(localStorage.getItem('sortBy') ||
   'deadline');
   const [sortOrder, setSortOrder] = useState(localStorage.getItem('sortOrder') || 'asc');
-
-
+  
   const categories = [
     'Work',
     'Home',
@@ -26,15 +25,17 @@ function TodoList() {
     'Relationships'
   ];
 
-  const [tasks, setTasks] = useState([
+  const [tasks, setTasks] = useState(() => {
+  const saved = localStorage.getItem('todos');
+  return saved ? JSON.parse(saved) : [
     {
       id: 1,
-      text: 'Dentist appointment',
-      description: 'Folktandvården Västertorp',
+      text: 'Dentist',
+      description: 'root canal',
       category: 'self-care',
       timeEstimate: 60,
-      deadline: '2025-12-20',
-      completed: true
+      deadline: '2025-12-29',
+      completed: false
     },
     {
       id: 2,
@@ -51,10 +52,15 @@ function TodoList() {
       description: 'Stadsbiblioteket',
       category: 'errands',
       timeEstimate: 20,
-      deadline: '2025-12-22',
+      deadline: '2025-12-28',
       completed: false
     }
-  ]);
+  ];
+});
+
+useEffect(() => {
+  localStorage.setItem('todos', JSON.stringify(tasks));
+}, [tasks]);
 
   useEffect(() => {
   const saved = JSON.parse(localStorage.getItem('todoFilters'));
@@ -76,9 +82,12 @@ function TodoList() {
   localStorage.setItem('sortOrder', sortOrder);
   }, [sortBy, sortOrder]);
 
+  const isOverdue =
+  !tasks.completed && new Date(tasks.deadline) < new Date();
+
   const filteredTasks = useMemo(() => {
   return tasks.filter(task => {
-  if (statusFilter === 'completed' && !task.completed) return false;
+  if (statusFilter === 'completed' && !tasks.completed) return false;
   if (statusFilter === 'active' && task.completed) return false;
 
   if (
@@ -127,7 +136,7 @@ function TodoList() {
 
   const totalTime = useMemo(() => {
   return filteredTasks
-  .filter(task => !task.completed)
+  .filter(task => !tasks.completed)
   .reduce((sum, task) => sum + (task.timeEstimate || 0), 0);
   }, [filteredTasks]);
 
@@ -171,15 +180,18 @@ function TodoList() {
   setTasks(tasks.filter(task => task.id !== id));
   }
 
-  function updateTask(id, newText) {
+  function updateTask(id, updatedFields) {
   setTasks(tasks.map(task =>
-    task.id === id ? { ...task, text: newText } : task
+    task.id === id
+      ? { ...task, ...updatedFields }
+      : task
   ));
-}
+  }
+  
   function toggleCompleted(id) {
   setTasks(
   tasks.map(task =>
-  task.id === id ? { ...task, completed: !task.completed } : task
+  task.id === id ? { ...task, completed: !tasks.completed } : task
   )
   );
   }
@@ -199,30 +211,12 @@ function TodoList() {
   onChange={e => setText(e.target.value)}
   />
 
-  <h2>Sort items  by:</h2>
-  <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
-  <option value="deadline">Deadline</option>
-  <option value="time">Duration</option>
-  <option value="status">Status</option>
-</select>
-
-<select value={sortOrder} onChange={e => setSortOrder(e.target.value)}>
-  <option value="asc">Ascending order</option>
-  <option value="desc">Descending order</option>
-</select>
-
-  <input
+    <input
   type="text"
   placeholder="Description"
   value={description}
   onChange={e => setDescription(e.target.value)}
   />
-
-<select value={category} onChange={e => setCategory(e.target.value)}>
-{categories.map(cat => (
-<option key={cat} value={cat}>{cat}</option>
-))}
-</select>
 
 <input
 type="number"
@@ -239,6 +233,27 @@ onChange={e => setDeadline(e.target.value)}
 />
 
 <button onClick={addTask}>Add task</button>
+</div>
+  <p>Sort items by:</p>
+  <div className='sortItems'>
+  <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+  <option value="">Status</option>
+  <option value="deadline">Deadline</option>
+  <option value="time">Duration</option>
+  </select>
+
+<select value={sortOrder} onChange={e => setSortOrder(e.target.value)}>
+  <option value="">Order</option>
+  <option value="asc">Ascending order</option>
+  <option value="desc">Descending order</option>
+</select>
+
+<select value={category} onChange={e => setCategory(e.target.value)}>
+  <option value="">Category</option>
+{categories.map(cat => (
+<option key={cat} value={cat}>{cat}</option>
+))}
+</select>
 </div>
 
 <div className='listContainer'>

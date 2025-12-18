@@ -245,6 +245,10 @@ button.delete-btn {
   color: #999;
 }
 
+.todoLabel.overdue {
+  color: #d32f2f;
+}
+
 .container {
   max-width: 900px;
   margin: auto;
