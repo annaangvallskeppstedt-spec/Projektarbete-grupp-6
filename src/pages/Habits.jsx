@@ -1,4 +1,4 @@
-import Navbar from "../components/navbar"
+import Navbar from "../components/Navbar"
 import Habitform from "../components/Habitform"
 import Habitlist from "../components/Habitlist"
 import "../index.css";
