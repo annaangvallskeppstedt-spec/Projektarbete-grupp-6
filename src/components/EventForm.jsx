@@ -1,19 +1,6 @@
-const EventForm = ({
-  form,
-  onChange,
-  onSubmit,
-  editingId,
-}) => {
+const EventForm = ({ form, onChange, onSubmit, editingId }) => {
   return (
-    <form
-      onSubmit={onSubmit}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-        maxWidth: "350px",
-      }}
-    >
+    <form className="card form" onSubmit={onSubmit}>
       <input
         type="text"
         name="name"
