@@ -25,7 +25,8 @@ return(
         <Navbar/>
         <h1>Productivity Assistant App</h1>
 
-        <div className="container-overview">   
+        <div className="container-overview"> 
+              
         <div className="todo-overview">
         <h3>My Todos</h3>
         </div>

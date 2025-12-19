@@ -87,9 +87,10 @@ export const HabitProvider = ({ children }) => {
                 priorityOrder[habit1.priority.toLowerCase()] - 
                 priorityOrder[habit2.priority.toLowerCase()]
             } else if (sortBy === "repetitions") {
-                return habit1.progress - habit2.progress
+                result = habit1.progress - habit2.progress
             } 
-                return sortOrder === "asc" ? result : -result
+
+            return sortOrder === "asc" ? result : -result
         })
     }
 
