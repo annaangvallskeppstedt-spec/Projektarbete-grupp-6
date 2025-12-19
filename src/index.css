@@ -110,9 +110,20 @@ button:hover {
 
 .sortItems {
   display: flex;
-  gap: .5rem;
   justify-content: center;
-  margin-bottom: .5rem;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.listContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  text-align: center;
 }
 
 .todo-list {
@@ -122,6 +133,12 @@ button:hover {
   list-style: none;
   padding: 0;
   justify-content: space-between;
+  margin-bottom: 0.25rem;
+  margin-top: 0rem;
+}
+
+.todo-list > p {
+  text-align: center;
 }
 
 .todo {
