@@ -172,7 +172,7 @@ useEffect(() => {
   setText('');
   setDescription('');
   setDeadline('');
-  setCategory('work');
+  setCategory('');
   setTimeEstimate('');
   }
 
@@ -217,6 +217,12 @@ useEffect(() => {
   value={description}
   onChange={e => setDescription(e.target.value)}
   />
+
+<select value={category} onChange={e => setCategory(e.target.value)}>
+{categories.map(cat => (
+<option key={cat} value={cat}>{cat}</option>
+))}
+</select>
 
 <input
 type="number"
