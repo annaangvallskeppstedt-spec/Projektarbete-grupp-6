@@ -1,7 +1,6 @@
 const EventForm = ({ form, onChange, onSubmit, editingId }) => {
   return (
     <form className="card form event-form" onSubmit={onSubmit}>
-      
       <div className="event-form-grid">
         {/* Event name */}
         <div className="field">
@@ -31,4 +30,17 @@ const EventForm = ({ form, onChange, onSubmit, editingId }) => {
           <input
             type="datetime-local"
             name="end"
-            val
+            value={form.end}
+            onChange={onChange}
+          />
+        </div>
+      </div>
+
+      <button type="submit">
+        {editingId ? "Save changes" : "Add event"}
+      </button>
+    </form>
+  );
+};
+
+export default EventForm;
