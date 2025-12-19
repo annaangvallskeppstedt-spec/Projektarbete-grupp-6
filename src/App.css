@@ -1,8 +1,8 @@
 #root {
   background-color: ghostwhite;
-  color:rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
   max-width: 1200px;
-  margin: 10;
+  margin: 0 auto;
   padding: 2rem;
 }
 
@@ -17,9 +17,9 @@
   padding: 2rem 2.5rem;
   border-radius: 12px;
   box-shadow: 10px 10px 30px rgba(43, 42, 42, 0.1);
-  text-align: center;
   max-width: 900px;
-  margin: 10;
+  margin: 2rem auto;   /* ← centrerad + luft upp/ner */
 }
+
 
 
