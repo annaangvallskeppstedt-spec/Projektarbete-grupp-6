@@ -80,30 +80,27 @@ export const HabitProvider = ({ children }) => {
         const priorityOrder = { high: 1, medium: 2, low: 3 }
 
         return [...habits].sort((habit1, habit2) => {
-            const result = 0;
+            let result = 0;
 
             if (sortBy === "priority") {
                 result =
                 priorityOrder[habit1.priority.toLowerCase()] - 
                 priorityOrder[habit2.priority.toLowerCase()]
-            } 
-            
-            if (sortBy === "repetitions") {
+            } else if (sortBy === "repetitions") {
                 return habit1.progress - habit2.progress
             } 
-
                 return sortOrder === "asc" ? result : -result
-            })
-        }
+        })
+    }
 
     const filteredHabits = useMemo(() => {
         return filter === "all" 
-        ? habitList : habitList.filter(habit => habit.priority.toLowerCase() === filter);
+        ? habitList : habitList.filter(habit => habit.priority.toLowerCase() === filter.toLowerCase());
     }, [habitList, filter])
 
     const sortedHabits = useMemo(() => {
     return sortHabits(filteredHabits, sortBy, sortOrder)
-    }, [filteredHabits, sortBy])
+    }, [filteredHabits, sortBy, sortOrder])
 
     useEffect(() =>  {
         localStorage.setItem("habitList", JSON.stringify(habitList))
