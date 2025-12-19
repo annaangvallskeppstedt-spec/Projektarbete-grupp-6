@@ -5,7 +5,7 @@ import EventList from "../components/EventList";
 import "../index.css";
 
 const Events = () => {
-  const [events, setEvents] = useState([]);
+  const Events = ({ events, setEvents }) => {
   const [filter, setFilter] = useState("all");
   const [editingId, setEditingId] = useState(null);
 
@@ -13,8 +13,8 @@ const Events = () => {
     name: "",
     start: "",
     end: "",
-  });
-
+    });
+  }
   const now = new Date();
 
 //  handlers //
