@@ -17,7 +17,7 @@ const Events = () => {
 
   const now = new Date();
 
-  /* ---------- handlers ---------- */
+//  handlers //
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -63,7 +63,7 @@ const Events = () => {
     setEvents((prev) => prev.filter((e) => e.id !== id));
   };
 
-  /* ---------- derived data ---------- */
+  //  derived data  //
 
   const filteredEvents = events.filter((e) => {
     if (filter === "future") return e.start > now;
@@ -77,7 +77,7 @@ const Events = () => {
     .sort((a, b) => a.start - b.start)
     .slice(0, 3);
 
-  /* ---------- render ---------- */
+  //  render  //
 
   return (
     <div className="container">
