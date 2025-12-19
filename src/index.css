@@ -51,6 +51,24 @@ button:hover {
   font-weight: bold;
 }
 
+.todoLabel.completed {
+  color: #999;
+  text-decoration: line-through;
+}
+
+.todo-category {
+  margin-left: 0.5rem;    
+  font-size: 0.8rem;      
+  font-style: italic;    
+  color: #666;           
+  white-space: nowrap;    
+}
+
+.select-placeholder {
+  font-style: italic;
+  color: #999;
+}
+
 .input__lg {
   padding: 1rem 1.2rem;
   border: 2px solid #ddd;
