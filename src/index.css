@@ -37,8 +37,11 @@ button {
   padding: 8px 20px;
   transition: 0.3s;
   width: auto;
-  align-self: center;
   margin: 0.2rem;
+}
+
+.todo-list > button {
+  align-self: center;
 }
 
 button:hover {
@@ -46,9 +49,14 @@ button:hover {
   color: white;
 }
 
-.todo-label.overdue {
-  color: red;
+.todoLabel.overdue {
+  color: #d32f2f;
   font-weight: bold;
+}
+
+.todoLabel.completed {
+  color: #999;
+  text-decoration: line-through;
 }
 
 form {
@@ -71,7 +79,7 @@ form {
 }
 
 /* Buttons */
-.btn {
+/*.btn {
   padding: 0.8rem 1.2rem;
   border-radius: 0.6rem;
    font-size: 1.1rem;
@@ -101,7 +109,7 @@ form {
 .btn-group {
   display: flex;
   gap: 1rem;
-}
+}*/
 
 /* Filters */
 .filters {
@@ -124,32 +132,52 @@ form {
   list-style: none;
 }
 
+.no-results {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
 .todo-form {
   border-top: 1px solid #ddd;
   padding-top: 15px;
+  display: flex;
+  gap: .2rem;
+  justify-content: center;
+  margin-bottom: 0.3rem;
+}
+
+.add-task-btn {
+  margin-top: 0.2rem;
+}
+
+.sortItems {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  margin-bottom: .5rem;
 }
 
 .todo-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: .5rem;
   list-style: none;
   padding: 0;
+  justify-content: space-between;
 }
 
 .todo {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: .5rem;
   border-radius: 0.8rem;
   background-color: #f8f9fa;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  gap: 1rem;
+  gap: .5rem;
   
-}
-.todo .btn-group {
-  gap: 0.5rem;
 }
 
 .item {
@@ -164,9 +192,33 @@ form {
   cursor: pointer;
 }
 
-.todo-label {
-  font-size: 1.1rem;
+.todoLabel {
+  font-size: 1rem;
   color: #333;
+}
+
+.todo-category {
+  font-size: 0.8rem;      
+  margin-left: 0.5rem;   
+  color: #666;           
+  font-style: italic;    
+}
+
+.listContainer {
+  display: flex;
+  flex-wrap: wrap;     
+  gap: 1rem;
+ justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.select-placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+select {
+  color: #222;
 }
 
 button:active {
@@ -292,5 +344,6 @@ input, select {
   border-radius: 6px;
   margin-bottom: 1rem;
 }
+
 
 
