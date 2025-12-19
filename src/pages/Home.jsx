@@ -2,6 +2,7 @@ import React from "react"
 import Navbar from "../components/Navbar"
 import { HabitContext } from "../context/HabitContext"
 import { useContext } from "react"
+import { Link } from "react-router-dom"
 
 
 
@@ -29,6 +30,8 @@ return(
               
         <div className="todo-overview">
         <h3>My Todos</h3>
+
+        <Link to="/Todos">Se all Todos</Link>
         </div>
 
     <div className="event-overview">
@@ -42,21 +45,24 @@ return(
     ) : (
         <p>No upcoming events</p>
          )}
+         <Link to="/Events">Se all Events</Link>
     </div>
 
                 <div className="habits-overview">
                 <h3>My Habits</h3>
 
                     {sortedHabits && sortedHabits.length > 0 ? (
-                        sortedHabits
+                        [...sortedHabits]
                         .sort((a, b) => b.progress - a.progress) //flest repetitioner först
                         .slice(0, 3) //tar de 3 första
                         .map(habit => <p key={habit.id}>{habit.title} - {habit.progress} repetitions</p>)
                     ) : ( 
                         <p>No habits yet</p>
-                    )}
+                    )} 
+                    
+                        <Link to="/Habits">Se all Habits</Link>
                     </div>
-
+                        
             </div>
         </div>
         
