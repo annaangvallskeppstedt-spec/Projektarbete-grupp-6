@@ -6,11 +6,10 @@ function TodoList() {
   const [text, setText] = useState('');
   const [description, setDescription] = useState('');
   const [deadline, setDeadline] = useState('');
-  const [category, setCategory] = useState('work');
+  const [category, setCategory] = useState('');
   const [filterCategory, setFilterCategory] = useState("all")
   const [timeEstimate, setTimeEstimate] = useState('');
   const [statusFilter, setStatusFilter] = useState('all'); 
-  const [selectedCategories, setSelectedCategories] = useState([]);
   const [sortBy, setSortBy] = useState(localStorage.getItem('sortBy') ||
   'deadline');
   const [sortOrder, setSortOrder] = useState(localStorage.getItem('sortOrder') || 'asc');
@@ -66,40 +65,36 @@ useEffect(() => {
   const saved = JSON.parse(localStorage.getItem('todoFilters'));
   if (saved) {
   setStatusFilter(saved.statusFilter);
-  setSelectedCategories(saved.selectedCategories);
   }
   }, []);
 
   useEffect(() => {
   localStorage.setItem(
   'todoFilters',
-  JSON.stringify({ statusFilter, selectedCategories })
+  JSON.stringify({ statusFilter})
   );
-  }, [statusFilter, selectedCategories]);
+  }, [statusFilter]);
 
   useEffect(() => {
   localStorage.setItem('sortBy', sortBy);
   localStorage.setItem('sortOrder', sortOrder);
   }, [sortBy, sortOrder]);
 
-  const isOverdue =
-  !tasks.completed && new Date(tasks.deadline) < new Date();
-
+  
   const filteredTasks = useMemo(() => {
   return tasks.filter(task => {
-  if (statusFilter === 'completed' && !tasks.completed) return false;
-  if (statusFilter === 'active' && task.completed) return false;
+    // status filter
+    if (statusFilter === 'completed' && !task.completed) return false;
+    if (statusFilter === 'active' && task.completed) return false;
 
-  if (
-  selectedCategories.length > 0 &&
-  !selectedCategories.includes(task.category)
-  ) {
-  return false;
-  }
+    // category filter
+    if (filterCategory !== 'all' && task.category !== filterCategory) {
+      return false;
+    }
 
-  return true;
+    return true;
   });
-  }, [tasks, statusFilter, selectedCategories]);
+}, [tasks, statusFilter, filterCategory]);
   const sortedTasks = useMemo(() => {
   const sorted = [...filteredTasks];
 
@@ -136,9 +131,9 @@ useEffect(() => {
 
   const totalTime = useMemo(() => {
   return filteredTasks
-  .filter(task => !tasks.completed)
-  .reduce((sum, task) => sum + (task.timeEstimate || 0), 0);
-  }, [filteredTasks]);
+    .filter(task => !task.completed)
+    .reduce((sum, task) => sum + (task.timeEstimate || 0), 0);
+    }, [filteredTasks]);
 
   function formatTime(minutes) {
     const hours = Math.floor(minutes / 60);
@@ -153,7 +148,7 @@ useEffect(() => {
   const selectedDate = new Date(deadline);
   const today = new Date();
 
-  if (!text || !deadline || !timeEstimate || selectedDate <= today) {
+  if (!text || !deadline || !timeEstimate || !category || selectedDate <= today) {
   alert('Fill in all fields and choose a future date');
   return;
   }
@@ -168,12 +163,12 @@ useEffect(() => {
   completed: false
   };
 
-  setTasks([...tasks, newTask]);
-  setText('');
-  setDescription('');
-  setDeadline('');
-  setCategory('work');
-  setTimeEstimate('');
+setTasks([...tasks, newTask]);
+setText('');
+setDescription('');
+setDeadline('');
+setCategory('');
+setTimeEstimate('');
   }
 
   function deleteTask(id) {
@@ -190,20 +185,21 @@ useEffect(() => {
   
   function toggleCompleted(id) {
   setTasks(
-  tasks.map(task =>
-  task.id === id ? { ...task, completed: !tasks.completed } : task
-  )
+    tasks.map(task =>
+      task.id === id
+        ? { ...task, completed: !task.completed }
+        : task
+    )
   );
-  }
+}
 
   function resetFilters() {
   setStatusFilter('all');
-  setSelectedCategories([]);
   }
 
   return (
   <div className="todo-list">
- <div className="todo-form">
+  <div className="todo-form">
   <input
   type="text"
   placeholder="Title"
@@ -217,6 +213,22 @@ useEffect(() => {
   value={description}
   onChange={e => setDescription(e.target.value)}
   />
+
+<select
+  className={category === '' ? 'select-placeholder' : ''}
+  value={category}
+  onChange={e => setCategory(e.target.value)}
+>
+  <option value="" disabled>
+    Category
+  </option>
+
+  {categories.map(cat => (
+    <option key={cat} value={cat.toLowerCase()}>
+      {cat}
+    </option>
+  ))}
+</select>
 
 <input
 type="number"
@@ -232,8 +244,10 @@ value={deadline}
 onChange={e => setDeadline(e.target.value)}
 />
 
-<button onClick={addTask}>Add task</button>
 </div>
+
+<button onClick={addTask}>Add task</button>
+
   <p>Sort items by:</p>
   <div className='sortItems'>
   <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
@@ -251,10 +265,11 @@ onChange={e => setDeadline(e.target.value)}
 <select value={category} onChange={e => setCategory(e.target.value)}>
   <option value="">Category</option>
 {categories.map(cat => (
-<option key={cat} value={cat}>{cat}</option>
+<option key={cat} value={cat.toLowerCase()}>{cat}</option>
 ))}
 </select>
 </div>
+
 
 <div className='listContainer'>
   <label>Filter by status:</label>
@@ -271,26 +286,32 @@ onChange={e => setDeadline(e.target.value)}
 >
   <option value="all">All</option>
   {categories.map(cat => (
-    <option key={cat} value={cat}>
-      {cat}
-    </option>
+    <option key={cat} value={cat.toLowerCase()}>
+  {cat}
+</option>
   ))}
 </select>
 
   <button onClick={resetFilters}>Reset filters</button>
 </div>
 
+  {filteredTasks.length === 0 ? (
+  <p className="no-results">
+    No tasks match your filters
+  </p>
+) : (
   <ul className="todo-items">
-  {filteredTasks.map(task => (
-  <TodoItem
-  key={task.id}
-  task={task}
-  deleteTask={deleteTask}
-  toggleCompleted={toggleCompleted}
-  updateTask={updateTask}
-  />
-  ))}
+    {filteredTasks.map(task => (
+      <TodoItem
+        key={task.id}
+        task={task}
+        deleteTask={deleteTask}
+        toggleCompleted={toggleCompleted}
+        updateTask={updateTask}
+      />
+    ))}
   </ul>
+)}
    <p>Total remaining time: {formatTime(totalTime)}</p>
   <p> {visibleCount} of {totalCount} items</p>
 </div>
