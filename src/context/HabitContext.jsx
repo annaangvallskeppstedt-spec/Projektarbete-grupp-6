@@ -77,7 +77,7 @@ export const HabitProvider = ({ children }) => {
     const sortHabits = (habits, sortBy, sortOrder) => {
         if(!sortBy || !sortOrder) return habits;
 
-        const priorityOrder = { high: 1, medium: 2, low: 3 }
+        const priorityOrder = { high: 3, medium: 2, low: 1 }
 
         return [...habits].sort((habit1, habit2) => {
             let result = 0;
