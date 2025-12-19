@@ -17,6 +17,8 @@ const Events = () => {
 
   const now = new Date();
 
+//  handlers //
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -39,38 +41,29 @@ const Events = () => {
     e.preventDefault();
     if (!form.name || !form.start || !form.end) return;
 
-    const startDate = new Date(form.start);
-    const endDate = new Date(form.end);
+    const start = new Date(form.start);
+    const end = new Date(form.end);
 
-    if (editingId) {
-      setEvents((prev) =>
-        prev
-          .map((ev) =>
+    setEvents((prev) => {
+      const updated = editingId
+        ? prev.map((ev) =>
             ev.id === editingId
-              ? { ...ev, name: form.name, start: startDate, end: endDate }
+              ? { ...ev, name: form.name, start, end }
               : ev
           )
-          .sort((a, b) => a.start - b.start)
-      );
-    } else {
-      const newEvent = {
-        id: Date.now(),
-        name: form.name,
-        start: startDate,
-        end: endDate,
-      };
+        : [...prev, { id: Date.now(), name: form.name, start, end }];
 
-      setEvents((prev) =>
-        [...prev, newEvent].sort((a, b) => a.start - b.start)
-      );
-    }
+      return updated.sort((a, b) => a.start - b.start);
+    });
 
     resetForm();
   };
 
   const deleteEvent = (id) => {
-    setEvents(events.filter((e) => e.id !== id));
+    setEvents((prev) => prev.filter((e) => e.id !== id));
   };
+
+  //  derived data  //
 
   const filteredEvents = events.filter((e) => {
     if (filter === "future") return e.start > now;
@@ -78,31 +71,63 @@ const Events = () => {
     return true;
   });
 
+  // 🔹 Minimal översikt: 3 kommande events
+  const upcomingEvents = events
+    .filter((e) => e.start > now)
+    .sort((a, b) => a.start - b.start)
+    .slice(0, 3);
+
+  //  render  //
+
   return (
     <div className="container">
       <Navbar />
 
       <h2>Event Planner</h2>
 
-      <EventForm
-        form={form}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        editingId={editingId}
-      />
+      <div className="events-layout">
+        {/* Vänster spalt */}
+        <div className="events-left">
+          <EventForm
+            form={form}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+            editingId={editingId}
+          />
+        </div>
 
-      <div style={{ marginTop: "20px" }}>
-        <button onClick={() => setFilter("all")}>All events</button>
-        <button onClick={() => setFilter("future")}>Future</button>
-        <button onClick={() => setFilter("past")}>Past</button>
+        {/* Höger spalt */}
+        <div className="events-right">
+          {/* Översikt */}
+          {upcomingEvents.length > 0 && (
+            <div className="event-overview">
+              <h3>Upcoming events</h3>
+              <ul>
+                {upcomingEvents.map((e) => (
+                  <li key={e.id}>
+                    {e.name} – {e.start.toLocaleDateString()}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Filter */}
+          <div className="event-filters">
+            <button onClick={() => setFilter("all")}>All events</button>
+            <button onClick={() => setFilter("future")}>Future</button>
+            <button onClick={() => setFilter("past")}>Past</button>
+          </div>
+
+          {/* Lista */}
+          <EventList
+            events={filteredEvents}
+            now={now}
+            onEdit={editEvent}
+            onDelete={deleteEvent}
+          />
+        </div>
       </div>
-
-      <EventList
-        events={filteredEvents}
-        now={now}
-        onEdit={editEvent}
-        onDelete={deleteEvent}
-      />
     </div>
   );
 };

@@ -14,6 +14,8 @@ const Habitlist = () => {
         sortedHabits,
         sortBy,
         setSortBy,
+        sortOrder,
+        setSortOrder,
     } = useContext(HabitContext)
 
     return(
@@ -30,11 +32,18 @@ const Habitlist = () => {
 
             <label>Sort by:</label>
             <select name="sortBy" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                <option value="">---</option>
                 <option value="priority">Priority</option>
                 <option value="repetitions">Repetitions</option>
             </select>
 
-            
+            <label>Order:</label>
+            <select name="sortOrder" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+                <option value="">---</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+
             <div className="habit-card-container">
                 {sortedHabits.map(habit => (
                     <div className="habit-card" key={habit.id}>
