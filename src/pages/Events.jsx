@@ -4,8 +4,7 @@ import EventForm from "../components/EventForm";
 import EventList from "../components/EventList";
 import "../index.css";
 
-const Events = () => {
-  const Events = ({ events, setEvents }) => {
+const Events = ({ events = [], setEvents }) => {
   const [filter, setFilter] = useState("all");
   const [editingId, setEditingId] = useState(null);
 
@@ -13,11 +12,11 @@ const Events = () => {
     name: "",
     start: "",
     end: "",
-    });
-  }
+  });
+
   const now = new Date();
 
-//  handlers //
+  // handlers
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -63,7 +62,7 @@ const Events = () => {
     setEvents((prev) => prev.filter((e) => e.id !== id));
   };
 
-  //  derived data  //
+  // derived data
 
   const filteredEvents = events.filter((e) => {
     if (filter === "future") return e.start > now;
@@ -71,13 +70,12 @@ const Events = () => {
     return true;
   });
 
-  // 🔹 Minimal översikt: 3 kommande events
   const upcomingEvents = events
     .filter((e) => e.start > now)
     .sort((a, b) => a.start - b.start)
     .slice(0, 3);
 
-  //  render  //
+  // render
 
   return (
     <div className="container">
@@ -86,7 +84,6 @@ const Events = () => {
       <h2>Event Planner</h2>
 
       <div className="events-layout">
-        {/* Vänster spalt */}
         <div className="events-left">
           <EventForm
             form={form}
@@ -96,9 +93,7 @@ const Events = () => {
           />
         </div>
 
-        {/* Höger spalt */}
         <div className="events-right">
-          {/* Översikt */}
           {upcomingEvents.length > 0 && (
             <div className="event-overview">
               <h3>Upcoming events</h3>
@@ -112,14 +107,12 @@ const Events = () => {
             </div>
           )}
 
-          {/* Filter */}
           <div className="event-filters">
             <button onClick={() => setFilter("all")}>All events</button>
             <button onClick={() => setFilter("future")}>Future</button>
             <button onClick={() => setFilter("past")}>Past</button>
           </div>
 
-          {/* Lista */}
           <EventList
             events={filteredEvents}
             now={now}
