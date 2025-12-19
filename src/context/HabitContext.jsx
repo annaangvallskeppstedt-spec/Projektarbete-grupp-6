@@ -1,21 +1,17 @@
 import { createContext, useState, useEffect, useMemo } from "react";
 
-//skapar och exporterar context för habits
 export const HabitContext = createContext()
 
-//skapar en habit provider
 export const HabitProvider = ({ children }) => {
 
-    //flyttar states från habits.jsx
     const [habitInput, setHabitInput] = useState("")
     const [habitList, setHabitList] = useState(JSON.parse(localStorage.getItem("habitList")) || [])
     const [goal, setGoal] = useState("")
     const [priority, setPriority] = useState("")
     const [filter, setFilter] = useState("all")
-    const [sortBy, setSortBy] = useState("priority")
+    const [sortBy, setSortBy] = useState("")
+    const [sortOrder, setSortOrder] = useState("")
 
-    
-    //Flyttar in funktioner och useEffect från habits.jsx
 
     const handleNewHabit = () => {
 
@@ -78,22 +74,27 @@ export const HabitProvider = ({ children }) => {
         )
     }
 
+    const sortHabits = (habits, sortBy, sortOrder) => {
+        if(!sortBy || !sortOrder) return habits;
 
-    //Funktion för sortering och filtrering
-
-    const sortHabits = (habits, sortBy) => {
         const priorityOrder = { high: 1, medium: 2, low: 3 }
 
         return [...habits].sort((habit1, habit2) => {
+            const result = 0;
+
             if (sortBy === "priority") {
-                return priorityOrder[habit1.priority.toLowerCase()] - priorityOrder[habit2.priority.toLowerCase()]
-            } else if (sortBy === "repetitions") {
-                return habit2.progress - habit1.progress
-            } else {
-                return 0;
-            }
-        })
-    }
+                result =
+                priorityOrder[habit1.priority.toLowerCase()] - 
+                priorityOrder[habit2.priority.toLowerCase()]
+            } 
+            
+            if (sortBy === "repetitions") {
+                return habit1.progress - habit2.progress
+            } 
+
+                return sortOrder === "asc" ? result : -result
+            })
+        }
 
     const filteredHabits = useMemo(() => {
         return filter === "all" 
@@ -101,22 +102,16 @@ export const HabitProvider = ({ children }) => {
     }, [habitList, filter])
 
     const sortedHabits = useMemo(() => {
-    return sortHabits(filteredHabits, sortBy)
+    return sortHabits(filteredHabits, sortBy, sortOrder)
     }, [filteredHabits, sortBy])
-
-    //useEffect för att spara varje ändring i localStorage
 
     useEffect(() =>  {
         localStorage.setItem("habitList", JSON.stringify(habitList))
     },[habitList])
 
-    //delete funktion
-
     const removeHabit = (id) => {
         setHabitList(habitList.filter(h => h.id !== id))
 }
-
-
 
     return(
         <HabitContext.Provider value={{ 
@@ -138,6 +133,8 @@ export const HabitProvider = ({ children }) => {
             sortedHabits, 
             sortBy, 
             setSortBy,
+            sortOrder,
+            setSortOrder,
             }}>
             {children}
         </HabitContext.Provider>
